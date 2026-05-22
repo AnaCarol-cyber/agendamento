@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tranças Bella</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header>
+    <h1>Tranças Bella</h1>
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="contato.html">Contato</a></li>
+        </ul>
+    </nav>
+</header>
+    
+<section class="servicos">
+  <h2>Serviços</h2>
+  <select id="servico">
+    <option value="">Selecione</option>
+    <option value="penteado">Penteado – 2h</option>
+    <option value="trancas">Tranças – 4h a 5h</option>
+  </select>
+</section>
+
+<section class="agendamento">
+  <h2>Agendamento</h2>
+
+  <label>Data:</label>
+  <input type="date" id="data">
+
+  <label>Horário:</label>
+  <select id="horario"></select>
+
+  <label>Forma de pagamento:</label>
+  <select id="pagamento">
+    <option value="pix">Pix</option>
+    <option value="cartao">Cartão (+10%)</option>
+  </select>
+
+  <button onclick="confirmar()">Confirmar Agendamento</button>
+</section>
+
+<script src="js/script.js"></script>
+
+</body>
+</html>
