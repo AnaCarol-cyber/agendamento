@@ -1,50 +1,96 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tranças Bella</title>
-    <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8">
+  <title>Tranças Bella | Agendamento</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Yeseva+One&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/contato.css">
 </head>
 <body>
+
 <header>
-    <h1>Tranças Bella</h1>
-    <nav>
-        <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="contato.html">Contato</a></li>
-        </ul>
-    </nav>
+  <h1>Tranças Bella</h1>
+  <nav>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="contato.html">Agendamento</a></li>
+    </ul>
+  </nav>
 </header>
-    
-<section class="servicos">
-  <h2>Serviços</h2>
+
+<section class="agendamento animar">
+  <h2>Agende seu horário</h2>
+
+  <label for="servico">Serviço</label>
   <select id="servico">
     <option value="">Selecione</option>
-    <option value="penteado">Penteado – 2h</option>
-    <option value="trancas">Tranças – 4h a 5h</option>
+    <option value="penteado">Penteado (a partir de R$100)</option>
+    <option value="trancas_cliente">Tranças – material do cliente (R$200)</option>
+    <option value="trancas_bella">Tranças – meu material (R$350)</option>
   </select>
-</section>
 
-<section class="agendamento">
-  <h2>Agendamento</h2>
-
-  <label>Data:</label>
+  <label for="data">Data</label>
   <input type="date" id="data">
 
-  <label>Horário:</label>
-  <select id="horario"></select>
+  <label for="horario">Horário</label>
+  <select id="horario">
+    <option value="">Selecione data e serviço</option>
+  </select>
 
-  <label>Forma de pagamento:</label>
+  <label for="pagamento">Forma de pagamento</label>
   <select id="pagamento">
-    <option value="pix">Pix</option>
+    <option value="pix">Pix ou dinheiro</option>
     <option value="cartao">Cartão (+10%)</option>
   </select>
 
-  <button onclick="confirmar()">Confirmar Agendamento</button>
+  <p class="aviso">
+    💳 Pagamentos no cartão têm acréscimo de 10%.  
+    Parcelamentos sujeitos aos juros da máquina.
+  </p>
+
+  <button onclick="confirmar()">Confirmar agendamento</button>
 </section>
 
-<script src="js/script.js"></script>
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-col">
+      <h3>Tranças Bella</h3>
+      <p>Beleza, cultura e identidade.</p>
+    </div>
 
+    <div class="footer-col">
+      <h3>Contato</h3>
+      <p>📞 (71) 9 9999-9999</p>
+      <p>📍 Salvador – BA</p>
+    </div>
+
+    <div class="footer-col">
+      <h3>Redes</h3>
+      <div class="social">
+         <a href="https://www.instagram.com/anacpn/" target="_blank" rel="noopener noreferrer">
+                    <img src="img/instagram-logo-50.png" alt="Instagram">
+                </a>
+        
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-copy">
+    © 2026 Tranças Bella
+  </div>
+</footer>
+
+<!-- WhatsApp flutuante -->
+<a href="https://wa.me/5571999999999" class="whatsapp-fixo" target="_blank">💬</a>
+
+<script src="js/contato.js"></script>
 </body>
 </html>

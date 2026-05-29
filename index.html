@@ -3,6 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <title>Tranças Bella</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Yeseva+One&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -12,7 +15,7 @@
   <nav>
     <ul>
       <li><a href="index.html">Home</a></li>
-      <li><a href="contato.html">Contato</a></li>
+      <li><a href="contato.html">Agendamento</a></li>
     </ul>
   </nav>
 </header>
@@ -21,7 +24,8 @@
 <section class="galeria">
   <h2>Meus Trabalhos</h2>
 
-  <div class="fotos">
+ <div class="carousel">
+  <div class="carousel-track">
     <img src="img/penteado2.jpg" alt="Penteado" onclick="abrirImagem(this)">
     <img src="img/penteado1.jpg" alt="Penteado" onclick="abrirImagem(this)">
     <img src="img/penteado3.jpg" alt="Penteado" onclick="abrirImagem(this)">
@@ -31,10 +35,11 @@
     <img src="img/imagem3.webp" alt="Trança" onclick="abrirImagem(this)">
     <img src="img/imagem4.png" alt="Trança" onclick="abrirImagem(this)">
   </div>
+</div>
 </section>
 
 
-<section class="sobre">
+<section class="sobre animar">
   <h2>Sobre Mim</h2>
   <p>
     Olá! Sou a Ana, especialista em tranças e penteados. Com anos de experiência,
@@ -50,18 +55,9 @@
 </section>
 
 
-<section class="curiosidades">
+<section class="curiosidades animar">
   <h3>Curiosidades</h3>
-  <ul>
-    <li>Adoro criar estilos únicos e inovadores.</li>
-    <li>Minha paixão é transformar a aparência das pessoas.</li>
-    <li>Estou sempre atualizada com as últimas tendências de cabelo.</li>
-  </ul>
-</section>
-
-
-<section class="historia">
-  <h3>Origem das Tranças e Identidade Cultural</h3>
+   <h4>Origem das Tranças e Identidade Cultural</h4>
 
   <p>
     As primeiras evidências das tranças datam de cerca de 3.500 a.C.,
@@ -94,12 +90,83 @@
   </p>
 </section>
 
+<div id="modalImagem" class="modal">
+  <span class="fechar" onclick="fecharImagem()">&times;</span>
 
-<div id="modalImagem" class="modal" onclick="fecharImagem()">
-  <span class="fechar">&times;</span>
+  <span class="seta esquerda" onclick="imagemAnterior()">&#10094;</span>
   <img class="modal-conteudo" id="imagemModal">
+  <span class="seta direita" onclick="proximaImagem()">&#10095;</span>
 </div>
 
+
+
 <script src="js/script.js"></script>
+
+<section class="localizacao animar">
+  <h2>Localização</h2>
+
+  <p class="texto-localizacao">
+    Atendimento em <strong>Salvador – BA</strong>, com hora marcada.
+    Endereço enviado após confirmação do agendamento.
+  </p>
+
+  <div class="mapa">
+    <iframe 
+      src= "https://www.google.com/maps?q=Comércio,+Salvador,+BA&output=embed"
+      loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade">
+    </iframe>
+  </div>
+
+  <a href="contato.html" class="btn-localizacao">
+    Agendar agora
+  </a>
+</section>
+
+<a 
+  href="https://wa.me/5571999999999" 
+  class="whatsapp-fixo" 
+  target="_blank"
+  aria-label="WhatsApp">
+  💬
+</a>
 </body>
+
+<footer class="footer">
+  <div class="footer-container">
+
+    <div class="footer-col">
+      <h3>Tranças Bella</h3>
+      <p>Beleza, cultura e identidade em cada trança.</p>
+    </div>
+
+    <div class="footer-col">
+      <h3>Contato</h3>
+      <p>📞 WhatsApp: (71) 9 9999-9999</p>
+      <p>✉️ Email: contato@trancasbella.com</p>
+    </div>
+
+    <div class="footer-col">
+      <h3>Endereço</h3>
+      <p>Salvador – BA</p>
+      <p>Atendimento com hora marcada</p>
+    </div>
+
+    <div class="footer-col">
+      <h3>Redes Sociais</h3>
+      <div class="social">
+         <a href="https://www.instagram.com/anacpn/" target="_blank" rel="noopener noreferrer">
+                    <img src="img/instagram-logo-50.png" alt="Instagram">
+                </a>
+        
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer-copy">
+    © 2026 Tranças Bella • Todos os direitos reservados
+  </div>
+</footer>
+
 </html>
