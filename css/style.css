@@ -213,6 +213,7 @@ section h3 {
   overflow: hidden;
   box-shadow: 0 10px 25px rgba(0,0,0,0.15);
   margin-bottom: 25px;
+  transition-delay: 0.2s;
 }
 
 .mapa iframe {
@@ -235,6 +236,17 @@ section h3 {
 .btn-localizacao:hover {
   background: var(--dourado);
   transform: translateY(-2px);
+}
+
+.animar-scroll {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 0.8s ease-out;
+}
+
+.animar-scroll.ativo {
+  opacity: 1;
+  transform: translateY(0);
 }
 /* =========================
    FOOTER

@@ -59,3 +59,16 @@ document.addEventListener("keydown", e => {
   if (e.key === "ArrowLeft") imagemAnterior();
   if (e.key === "Escape") fecharImagem();
 });
+
+document.addEventListener("scroll", function () {
+  const elementos = document.querySelectorAll(".animar-scroll");
+
+  elementos.forEach(el => {
+    const posicao = el.getBoundingClientRect().top;
+    const alturaTela = window.innerHeight * 0.85;
+
+    if (posicao < alturaTela) {
+      el.classList.add("ativo");
+    }
+  });
+});
