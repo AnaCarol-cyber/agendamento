@@ -1,28 +1,14 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <title>Tranças Bella | Agendamento</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Yeseva+One&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-
-  <link rel="stylesheet" href="css/contato.css">
-</head>
-<body>
 
 <header>
   <h1>Tranças Bella</h1>
   <nav>
     <ul>
-      <li><a href="index.html">Home</a></li>
-      <li><a href="contato.html">Agendamento</a></li>
+     <a routerLink="/">Home</a>
+      <a routerLink="/agendamento">Agendamento</a>
     </ul>
   </nav>
 </header>
+
 
 <section class="agendamento animar">
   <h2>Agende seu horário</h2>
@@ -54,7 +40,7 @@
     Parcelamentos sujeitos aos juros da máquina.
   </p>
 
-  <button onclick="confirmar()">Confirmar agendamento</button>
+  <button (click)="confirmar()">Confirmar agendamento</button>
 </section>
 
 <!-- FOOTER -->
@@ -75,7 +61,7 @@
       <h3>Redes</h3>
       <div class="social">
          <a href="https://www.instagram.com/anacpn/" target="_blank" rel="noopener noreferrer">
-                    <img src="img/instagram-logo-50.png" alt="Instagram">
+                    <img src="assets/img/instagram-logo-50.png" alt="Instagram">
                 </a>
         
         
@@ -91,6 +77,3 @@
 <!-- WhatsApp flutuante -->
 <a href="https://wa.me/5571999999999" class="whatsapp-fixo" target="_blank">💬</a>
 
-<script src="js/contato.js"></script>
-</body>
-</html>

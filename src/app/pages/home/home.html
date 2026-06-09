@@ -1,0 +1,126 @@
+
+<header>
+  <h1>Tranças Bella</h1>
+  <nav>
+    <ul>
+     <a routerLink="/">Home</a>
+      <a routerLink="/agendamento"> Ir para agendamento</a>
+    </ul>
+  </nav>
+</header>
+
+<!-- GALERIA -->
+<section class="galeria">
+  <h2>Meus Trabalhos</h2>
+
+<div class="carousel">
+  <div class="carousel-track">
+    <img
+      *ngFor="let img of imagens; let i = index"
+      [src]="img"
+      alt="Trança"
+      (click)="abrirImagem(i)"
+    />
+  </div>
+
+</div>
+</section>
+
+
+<section class="sobre animar">
+  <h2>Sobre Mim</h2>
+  <p>
+    Olá! Sou a Ana, especialista em tranças e penteados. Com anos de experiência,
+    transformo cabelos em verdadeiras obras de arte.
+  </p>
+  <p>
+    Meu compromisso é realçar a beleza única de cada cliente, oferecendo um serviço
+    personalizado e de alta qualidade.
+  </p>
+  <p>
+    Agende seu horário e deixe-me cuidar do seu visual!
+  </p>
+</section>
+
+
+<section class="curiosidades animar">
+  <h3>Curiosidades</h3>
+   <h4>Origem das Tranças e Identidade Cultural</h4>
+
+  <p>
+    As primeiras evidências das tranças datam de cerca de 3.500 a.C.,
+    na região do Saara, onde pinturas rupestres retratam mulheres com
+    cabelos trançados.
+  </p>
+
+  <p>
+    Na África antiga, as tranças indicavam idade, estado civil, religião,
+    riqueza e a tribo à qual a pessoa pertencia.
+  </p>
+
+  <p>
+    Durante o período da escravidão, especialmente nas Américas,
+    as tranças se tornaram ferramentas de sobrevivência.
+    Os desenhos feitos nas tranças indicavam rotas de fuga
+    e pontos de encontro.
+  </p>
+
+  <p>
+    Além disso, sementes eram escondidas nos cabelos,
+    garantindo alimento aos povos escravizados ao chegarem
+    aos quilombos.
+  </p>
+
+  <p>
+    Hoje, as tranças representam resistência, identidade,
+    orgulho cultural e também são aliadas importantes
+    na transição capilar.
+  </p>
+</section>
+
+<div class="modal" *ngIf="modalAberto">
+  <span class="fechar" (click)="fecharImagem()">&times;</span>
+
+  <span class="seta esquerda" (click)="imagemAnterior()">&#10094;</span>
+
+  <img
+    class="modal-conteudo"
+    [src]="imagens[indiceImagem]"
+  />
+
+  <span class="seta direita" (click)="proximaImagem()">&#10095;</span>
+</div>
+
+
+
+<section class="localizacao animar">
+  <h2>Localização</h2>
+
+  <p class="texto-localizacao">
+    Atendimento em <strong>Salvador – BA</strong>, com hora marcada.
+    Endereço enviado após confirmação do agendamento.
+  </p>
+
+ <section class="localizacao animar-scroll">
+  <h2>📍 Onde estamos</h2>
+  <p>Atendimento no bairro <strong>Comércio – Salvador/BA</strong></p>
+
+  <div class="mapa">
+    <iframe
+      src="https://www.google.com/maps?q=Comércio,+Salvador,+BA&output=embed"
+      loading="lazy">
+    </iframe>
+  </div>
+</section>
+<a routerLink="/agendamento" class="btn-localizacao">
+  Agendar agora
+</a>
+</section>
+
+<a 
+  href="https://wa.me/5571999999999" 
+  class="whatsapp-fixo" 
+  target="_blank"
+  aria-label="WhatsApp">
+  💬
+</a>
