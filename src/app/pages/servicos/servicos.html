@@ -1,0 +1,18 @@
+<h2>Serviços</h2>
+
+<div class="servicos-grid">
+  <div class="servico" *ngFor="let s of servicos">
+    <img [src]="s.imagem" [alt]="s.nome" (click)="selecionarServico(s)" />
+    <h3>{{ s.nome }}</h3>
+    <p>R$ {{ s.preco }}</p>
+    <button (click)="selecionarServico(s)">Agendar</button>
+  </div>
+</div>
+
+<!-- Upload de modelo próprio -->
+<section class="modelo-proprio">
+  <h3>Não encontrou o modelo?</h3>
+  <p>Envie sua foto e siga para o agendamento.</p>
+  <input type="file" (change)="enviarModelo($event)" />
+  <button (click)="irParaAgendamento()">Agendar com meu modelo</button>
+</section>

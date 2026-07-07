@@ -1,0 +1,235 @@
+/* =========================
+   RESET
+========================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* =========================
+   VARIÁVEIS DE TEMA
+========================= */
+:root {
+  --marrom: #3b1f0f;
+  --dourado: #c89b3c;
+  --bege: #f9f6f2;
+  --texto: #2c2c2c;
+}
+
+/* =========================
+   BODY
+========================= */
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: var(--bege);
+  color: var(--texto);
+  line-height: 1.6;
+}
+
+/* =========================
+   HEADER
+========================= */
+header {
+  background: var(--marrom);
+  color: #fff;
+  padding: 20px;
+  text-align: center;
+}
+
+header h1 {
+  font-family: 'Yeseva One', serif;
+  font-size: 32px;
+}
+
+nav ul {
+  list-style: none;
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+nav a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+nav a:hover {
+  color: var(--dourado);
+}
+
+/* =========================
+   SEÇÃO AGENDAMENTO
+========================= */
+.agendamento {
+  max-width: 520px;
+  margin: 60px auto;
+  padding: 40px;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+}
+
+/* animação suave */
+.animar {
+  animation: subir 0.8s ease;
+}
+
+@keyframes subir {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.agendamento h2 {
+  font-family: 'Yeseva One', serif;
+  text-align: center;
+  color: var(--marrom);
+  margin-bottom: 25px;
+}
+
+/* =========================
+   LABELS
+========================= */
+.agendamento label {
+  display: block;
+  margin-top: 15px;
+  font-weight: 500;
+  color: var(--marrom);
+}
+
+/* =========================
+   INPUTS E SELECTS
+========================= */
+.agendamento input,
+.agendamento select {
+  width: 100%;
+  padding: 12px;
+  margin-top: 5px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.agendamento input:focus,
+.agendamento select:focus {
+  outline: none;
+  border-color: var(--dourado);
+  box-shadow: 0 0 0 2px rgba(200, 155, 60, 0.2);
+}
+
+/* =========================
+   AVISO
+========================= */
+.aviso {
+  margin-top: 15px;
+  font-size: 13px;
+  color: #555;
+  background: #f4f1ec;
+  padding: 12px;
+  border-left: 4px solid var(--dourado);
+  border-radius: 4px;
+}
+
+/* =========================
+   BOTÃO
+========================= */
+.agendamento button {
+  display: block;         
+  width: 50%;              
+  margin: 30px auto 0;    
+  padding: 14px;
+  background-color: var(-dourado);
+  color: #fff;            
+  border: none;
+  border-radius: 30px;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+  text-align: center;     
+}
+
+.agendamento button:hover {
+  background-color: #d7975c;
+  transform: translateY(-2px);
+}/* =========================
+   LGPD - CONSENTIMENTO
+========================= */
+.lgpd {
+  margin-top: 15px;
+  padding: 15px;
+  background: #f9f6f2; /* tom bege suave */
+  border-radius: 10px;
+  border-left: 4px solid var(--dourado);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.08);
+}
+
+.lgpd input[type="checkbox"] {
+  accent-color: var(--dourado); /* cor personalizada do checkbox */
+  transform: scale(1.2);
+  cursor: pointer;
+}
+
+.lgpd label {
+  font-size: 13px; /* aumentei para melhor leitura */
+  color: var(--marrom);
+  font-weight: 500;
+  margin-left: 8px;
+  cursor: pointer;
+}
+
+.lgpd-texto {
+  font-size: 12px; /* aumentei para melhor leitura */
+  color: #555;
+  margin-top: 10px;
+  line-height: 1.5;
+  text-align: justify;
+}
+
+/* =========================
+   RESPONSIVO
+========================= */
+@media (max-width: 600px) {
+  header h1 {
+    font-size: 26px;
+  }
+
+  .agendamento {
+    margin: 30px 15px;
+    padding: 30px 20px;
+  }
+
+  .lgpd {
+    padding: 12px;
+  }
+
+  .lgpd label {
+    font-size: 12px;
+  }
+
+  .lgpd-texto {
+    font-size: 11px;
+  }
+}
+
+/* =========================
+   RESPONSIVO
+========================= */
+@media (max-width: 600px) {
+  header h1 {
+    font-size: 26px;
+  }
+
+  .agendamento {
+    margin: 30px 15px;
+    padding: 30px 20px;
+  }
+}

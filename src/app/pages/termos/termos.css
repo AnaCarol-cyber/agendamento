@@ -1,0 +1,48 @@
+.termos {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 30px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  line-height: 1.6;
+}
+
+.termos h2 {
+  text-align: center;
+  color: var(--marrom);
+  margin-bottom: 20px;
+  font-family: 'Yeseva One', serif;
+}
+
+.termos h3 {
+  color: var(--dourado);
+  margin-top: 20px;
+}
+
+.termos p {
+  margin-top: 10px;
+  color: var(--texto);
+  text-align: justify;
+}
+
+.retorno {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.btn-retorno {
+  display: inline-block;
+  padding: 12px 25px;
+  background: var(--marrom);
+  color: #d20e0e;
+  border-radius: 25px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.btn-retorno:hover {
+  background: var(--dourado);
+  transform: translateY(-3px);
+}

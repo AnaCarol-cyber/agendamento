@@ -1,79 +1,50 @@
+<section class="agendamento">
+  <h2>Agendamento de Serviço</h2>
 
-<header>
-  <h1>Tranças Bella</h1>
-  <nav>
-    <ul>
-     <a routerLink="/">Home</a>
-      <a routerLink="/agendamento">Agendamento</a>
-    </ul>
-  </nav>
-</header>
+  <form (ngSubmit)="confirmarAgendamento()" #formAgendamento="ngForm">
+    <!-- Nome -->
+    <label for="nome">Nome</label>
+    <input type="text" id="nome" [(ngModel)]="nome" name="nome" required />
 
+    <!-- WhatsApp -->
+    <label for="contato">WhatsApp</label>
+    <input type="text" id="contato" [(ngModel)]="contato" name="contato" required />
 
-<section class="agendamento animar">
-  <h2>Agende seu horário</h2>
+    <!-- Serviço -->
+    <label for="servico">Serviço</label>
+    <select id="servico" [(ngModel)]="servico" name="servico" required>
+      <option value="" disabled selected>Selecione um serviço</option>
+      <option value="Tranças">Tranças</option>
+      <option value="Penteado">Penteado</option>
+      <option value="Megahair">Megahair</option>
+      <option value="Outro">Outro</option>
+    </select>
 
-  <label for="servico">Serviço</label>
-  <select id="servico">
-    <option value="">Selecione</option>
-    <option value="penteado">Penteado (a partir de R$100)</option>
-    <option value="trancas_cliente">Tranças – material do cliente (R$200)</option>
-    <option value="trancas_bella">Tranças – meu material (R$350)</option>
-  </select>
+    <!-- Data -->
+    <label for="data">Data</label>
+    <input type="date" id="data" [(ngModel)]="data" name="data" required />
 
-  <label for="data">Data</label>
-  <input type="date" id="data">
+    <!-- Horário -->
+    <label for="horario">Horário</label>
+    <input type="time" id="horario" [(ngModel)]="horario" name="horario" required />
 
-  <label for="horario">Horário</label>
-  <select id="horario">
-    <option value="">Selecione data e serviço</option>
-  </select>
+    <!-- LGPD -->
+    <div class="lgpd">
+      <input type="checkbox" id="consentimento" [(ngModel)]="consentimento" name="consentimento" required />
+      <label for="consentimento">
+        Autorizo o uso dos meus dados pessoais para fins de agendamento, conforme a LGPD.
+      </label>
+      <p class="lgpd-texto">
+        Seus dados serão utilizados apenas para contato e confirmação do serviço.  
+        Não serão compartilhados com terceiros.  
+        <a routerLink="/privacidade" target="_blank">Leia nossa Política de Privacidade</a> | 
+        <a routerLink="/termos" target="_blank">Leia nossos Termos de Serviço</a>.
+      </p>
+    </div>
 
-  <label for="pagamento">Forma de pagamento</label>
-  <select id="pagamento">
-    <option value="pix">Pix ou dinheiro</option>
-    <option value="cartao">Cartão (+10%)</option>
-  </select>
-
-  <p class="aviso">
-    💳 Pagamentos no cartão têm acréscimo de 10%.  
-    Parcelamentos sujeitos aos juros da máquina.
-  </p>
-
-  <button (click)="confirmar()">Confirmar agendamento</button>
+    <!-- Botão -->
+    <button type="submit" [disabled]="!formAgendamento.form.valid">
+      Confirmar Agendamento
+    </button>
+  </form>
 </section>
-
-<!-- FOOTER -->
-<footer class="footer">
-  <div class="footer-container">
-    <div class="footer-col">
-      <h3>Tranças Bella</h3>
-      <p>Beleza, cultura e identidade.</p>
-    </div>
-
-    <div class="footer-col">
-      <h3>Contato</h3>
-      <p>📞 (71) 9 9999-9999</p>
-      <p>📍 Salvador – BA</p>
-    </div>
-
-    <div class="footer-col">
-      <h3>Redes</h3>
-      <div class="social">
-         <a href="https://www.instagram.com/anacpn/" target="_blank" rel="noopener noreferrer">
-                    <img src="assets/img/instagram-logo-50.png" alt="Instagram">
-                </a>
-        
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="footer-copy">
-    © 2026 Tranças Bella
-  </div>
-</footer>
-
-<!-- WhatsApp flutuante -->
-<a href="https://wa.me/5571999999999" class="whatsapp-fixo" target="_blank">💬</a>
-

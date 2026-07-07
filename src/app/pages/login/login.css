@@ -1,0 +1,186 @@
+/* =========================
+   SEÇÃO LOGIN
+========================= */
+.login {
+  max-width: 420px;
+  margin: 80px auto;
+  padding: 40px;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+  text-align: center;
+}
+
+.login h2 {
+  font-family: 'Yeseva One', serif;
+  color: var(--marrom);
+  margin-bottom: 25px;
+  font-size: 26px;
+}
+
+/* Labels */
+.login label {
+  display: block;
+  text-align: left;
+  margin-top: 15px;
+  font-weight: 500;
+  color: var(--marrom);
+}
+
+/* Inputs */
+.login input {
+  width: 100%;
+  padding: 12px;
+  margin-top: 5px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.login input:focus {
+  outline: none;
+  border-color: var(--dourado);
+  box-shadow: 0 0 0 2px rgba(200, 155, 60, 0.2);
+}
+
+/* Container do toggle */
+.field.toggle {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+/* Label do texto */
+.toggle-label {
+  font-size: 14px;
+  color: var(--marrom);
+  font-weight: 500;
+}
+
+/* Switch base */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 46px;
+  height: 24px;
+}
+
+/* Esconde o checkbox padrão */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* Slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 24px;
+}
+
+/* Bolinha dentro do slider */
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+.senha-container {
+  position: relative;
+}
+
+.senha-container input {
+  width: 100%;
+  padding: 12px;
+  padding-right: 40px; /* espaço para o ícone */
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.toggle-senha {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 18px;
+  color: var(--marrom);
+  transition: 0.3s;
+}
+
+.toggle-senha:hover {
+  color: var(--dourado);
+}
+
+
+/* Quando marcado */
+.switch input:checked + .slider {
+  background-color: rgb(255, 136, 0);
+}
+
+.switch input:checked + .slider:before {
+  transform: translateX(22px);
+}
+
+
+/* Botão Entrar */
+.login button {
+  display: block;         
+  width: 50%;              
+  margin: 30px auto 0;    
+  padding: 14px;
+  background-color: var(-dourado);
+  color: #fff;            
+  border: none;
+  border-radius: 30px;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+  text-align: center;
+}
+
+.login button:hover {
+   background-color: #d7975c;
+  transform: translateY(-2px);
+  
+}
+
+/* Mensagem de erro */
+.erro {
+  margin-top: 15px;
+  color: #b00020;
+  font-size: 13px;
+  background: #fce4e4;
+  padding: 10px;
+  border-radius: 6px;
+  border-left: 4px solid #b00020;
+  text-align: center;
+}
+
+/* Responsivo */
+@media (max-width: 600px) {
+  .login {
+    margin: 40px 15px;
+    padding: 30px 20px;
+  }
+
+  .login h2 {
+    font-size: 22px;
+  }
+
+  .login button {
+    width: 80%;
+  }
+}

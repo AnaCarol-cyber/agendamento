@@ -1,1 +1,68 @@
-/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Montserrat:wght@300;400;600&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #f4efe9;
+  color: #3b1f14;
+  font-family: 'Montserrat', sans-serif;
+}
+
+main {
+  min-height: calc(100vh - 140px);
+  padding: 30px 20px;
+}
+
+/* títulos */
+h1, h2, h3 {
+  font-family: 'Playfair Display', serif;
+  color: #3b1f14;
+}
+
+/* botões padrão */
+button {
+  background: linear-gradient(135deg, #a64b2a, #d4a017);
+  color: #fff;
+  border: none;
+  border-radius: 30px;
+  padding: 12px 20px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+main.conteudo {
+  display: block;
+  overflow: visible;
+}
+/* =========================
+   WHATSAPP FIXO
+========================= */
+.whatsapp-fixo {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  background: #25d366;
+  color: #fff;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  font-size: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.3);
+  z-index: 9999;
+}
+
+.whatsapp-fixo:hover {
+  transform: scale(1.1);
+}

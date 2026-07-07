@@ -1,0 +1,87 @@
+<section class="dashboard">
+  <!-- Cabeçalho -->
+  <header class="dashboard-header">
+    <h2>Dashboard Administrativo</h2>
+    <div class="usuario-logado" (click)="toggleMenu()">
+      <span class="icone-usuario">👤</span>
+      <div class="menu-usuario" *ngIf="menuAberto">
+        <button (click)="sair()">Sair</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Resumo rápido -->
+  <div class="resumo">
+    <div class="card pendente" (click)="statusFiltro='Pendente'">
+      <h3>Pendentes</h3>
+      <p>{{ agendamentos.filter(a => a.status === 'Pendente').length }}</p>
+    </div>
+    <div class="card confirmado" (click)="statusFiltro='Confirmado'">
+      <h3>Confirmados</h3>
+      <p>{{ agendamentos.filter(a => a.status === 'Confirmado').length }}</p>
+    </div>
+    <div class="card cancelado" (click)="statusFiltro='Cancelado'">
+      <h3>Cancelados</h3>
+      <p>{{ agendamentos.filter(a => a.status === 'Cancelado').length }}</p>
+    </div>
+  </div>
+
+  <!-- Filtros e busca -->
+  <div class="filtros">
+    <label for="statusFiltro">Filtrar por status:</label>
+    <select id="statusFiltro" [(ngModel)]="statusFiltro">
+      <option value="">Todos</option>
+      <option value="Pendente">Pendentes</option>
+      <option value="Confirmado">Confirmados</option>
+      <option value="Cancelado">Cancelados</option>
+    </select>
+
+    <input type="text" [(ngModel)]="busca" placeholder="Buscar por nome ou serviço..." />
+    <button (click)="exportarCSV()">Exportar CSV</button>
+  </div>
+
+  <!-- Tabela de agendamentos -->
+  <table>
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>Contato</th>
+        <th>Serviço</th>
+        <th>Data</th>
+        <th>Horário</th>
+        <th>Valor</th>
+        <th>Status</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let agendamento of getAgendamentosFiltrados()">
+        <td>{{agendamento.nome}}</td>
+        <td>{{agendamento.contato}}</td>
+        <td>{{agendamento.servico}}</td>
+        <td>{{agendamento.data}}</td>
+        <td>{{agendamento.horario}}</td>
+        <td>
+          <input type="number" [(ngModel)]="agendamento.valor" placeholder="R$" />
+          <button (click)="adicionarValor(agendamento, agendamento.valor)">
+            Salvar e Enviar Pagamento
+          </button>
+        </td>
+        <td>
+          <span class="badge" 
+                [ngClass]="{
+                  'pendente': agendamento.status === 'Pendente',
+                  'confirmado': agendamento.status === 'Confirmado',
+                  'cancelado': agendamento.status === 'Cancelado'
+                }">
+            {{ agendamento.status || 'Pendente' }}
+          </span>
+        </td>
+        <td>
+          <button (click)="confirmarAgendamento(agendamento)">Confirmar</button>
+          <button (click)="cancelarAgendamento(agendamento)">Cancelar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</section>

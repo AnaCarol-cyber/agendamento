@@ -1,0 +1,120 @@
+/* =========================
+   SERVIÇOS
+========================= */
+.servicos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 25px;
+  margin: 30px 0;
+}
+
+.servico {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.servico:hover {
+  transform: translateY(-5px);
+}
+
+.servico img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.servico img:hover {
+  transform: scale(1.05);
+}
+
+.servico h3 {
+  margin: 12px 0 6px;
+  color: var(--marrom);
+  font-family: 'Yeseva One', serif;
+}
+
+.servico p {
+  color: var(--dourado);
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.servico button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  background: var(--marrom);
+  color: #fff;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: 0.3s;
+  font-weight: 600;
+}
+
+.servico button:hover {
+  background: var(--dourado);
+}
+
+/* =========================
+   MODELO PRÓPRIO
+========================= */
+.modelo-proprio {
+  margin-top: 40px;
+  padding: 25px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.modelo-proprio h3 {
+  color: var(--marrom);
+  margin-bottom: 10px;
+  font-family: 'Yeseva One', serif;
+}
+
+.modelo-proprio p {
+  margin-bottom: 15px;
+  color: var(--texto);
+}
+
+.modelo-proprio input[type="file"] {
+  margin: 10px 0;
+  padding: 8px;
+}
+
+.modelo-proprio button {
+  margin-top: 15px;
+  padding: 12px 25px;
+  background: var(--marrom);
+  color: #fff;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: 0.3s;
+  font-weight: 600;
+}
+
+.modelo-proprio button:hover {
+  background: var(--dourado);
+}
+
+/* =========================
+   RESPONSIVO
+========================= */
+@media (max-width: 768px) {
+  .servicos-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .servico img {
+    height: 180px;
+  }
+}

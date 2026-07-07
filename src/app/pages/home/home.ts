@@ -40,4 +40,15 @@ export class Home {
   imagemAnterior() {
     this.indiceImagem = (this.indiceImagem - 1 + this.imagens.length) % this.imagens.length;
   }
+ngOnInit() {
+  window.addEventListener('scroll', () => {
+    document.querySelectorAll('.animar, .animar-scroll').forEach((el) => {
+      const rect = (el as HTMLElement).getBoundingClientRect();
+      if (rect.top < window.innerHeight - 100) {
+        el.classList.add('ativo');
+      }
+    });
+  });
+}
+
 }

@@ -1,0 +1,235 @@
+/* =========================
+   RESET
+========================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* =========================
+   IDENTIDADE VISUAL
+========================= */
+:root {
+  --marrom: #3b1f0f;
+  --dourado: #c89b3c;
+  --bege: #f9f6f2;
+  --texto: #2c2c2c;
+  --modal-bg: rgba(0,0,0,0.85);
+}
+
+/* =========================
+   BODY
+========================= */
+body {
+  font-family: 'Poppins', sans-serif;
+  background: var(--bege);
+  color: var(--texto);
+  line-height: 1.6;
+}
+
+/* =========================
+   SEÇÕES
+========================= */
+section {
+  background: #fff;
+  padding: 35px;
+  margin: 40px auto;
+  max-width: 960px;
+  border-radius: 14px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+}
+
+section h2,
+section h3,
+section h4 {
+  font-family: 'Yeseva One', serif;
+  color: var(--marrom);
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+/* =========================
+   GALERIA
+========================= */
+.galeria {
+  text-align: center;
+}
+
+.carousel {
+  overflow: hidden;
+  border-radius: 14px;
+  margin-top: 20px;
+}
+
+.carousel-track {
+  display: flex;
+  gap: 15px;
+  animation: slide 35s linear infinite;
+}
+
+.carousel img {
+  width: 280px;
+  height: 280px;
+  object-fit: cover;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.carousel img:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 22px rgba(0,0,0,0.3);
+}
+
+@keyframes slide {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* =========================
+   SOBRE
+========================= */
+.sobre p {
+  margin-bottom: 15px;
+  text-align: center;
+  font-size: 1rem;
+}
+
+/* =========================
+   CURIOSIDADES
+========================= */
+.curiosidades h4 {
+  color: var(--dourado);
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.curiosidades p {
+  margin-bottom: 12px;
+  text-align: justify;
+}
+
+/* =========================
+   MODAL
+========================= */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85); /* fundo escuro translúcido */
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-conteudo {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 10px;
+  box-shadow: 0 0 25px rgba(0,0,0,0.6);
+}
+
+.fechar {
+  position: absolute;
+  top: 22px;
+  right: 28px;
+  font-size: 42px;
+  color: #fff;
+  cursor: pointer;
+}
+
+.seta {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 48px;
+  color: var(--dourado);
+  cursor: pointer;
+  user-select: none;
+}
+
+.seta:hover {
+  color: #fff;
+}
+
+.seta.esquerda { left: 18px; }
+.seta.direita { right: 18px; }
+
+/* =========================
+   LOCALIZAÇÃO
+========================= */
+.localizacao {
+  text-align: center;
+}
+
+.texto-localizacao {
+  margin-bottom: 20px;
+  font-size: 1rem;
+}
+
+.mapa {
+  width: 100%;
+  height: 320px;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  margin-bottom: 25px;
+}
+
+.mapa iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.btn-localizacao {
+  display: inline-block;
+  background: var(--marrom);
+  color: #fff;
+  padding: 14px 30px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.btn-localizacao:hover {
+  background: var(--dourado);
+  transform: translateY(-2px);
+}
+
+
+/* =========================
+   ANIMAÇÃO SCROLL
+========================= */
+.animar {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: 0.8s;
+}
+
+.animar.ativo {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.animar-scroll {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 0.8s ease-out;
+}
+
+.animar-scroll.ativo {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* =========================
+   RESPONSIVO
+========================= */
+@media (max-width: 768px) {
+  section { padding: 25px; }
+  .carousel img { width: 220px; height: 220px; }
+  .seta { font-size: 36px; }
+}
