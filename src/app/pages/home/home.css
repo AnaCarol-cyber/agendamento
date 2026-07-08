@@ -44,9 +44,9 @@ section h2,
 section h3,
 section h4 {
   font-family: 'Yeseva One', serif;
-  color: var(--marrom);
+  color:#d4a017;
   text-align: center;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 }
 
 /* =========================
@@ -100,7 +100,8 @@ section h4 {
    CURIOSIDADES
 ========================= */
 .curiosidades h4 {
-  color: var(--dourado);
+  color: black;
+  margin-bottom: 10px;
   margin-bottom: 12px;
   text-align: center;
 }
@@ -116,7 +117,7 @@ section h4 {
 .modal {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.85); /* fundo escuro translúcido */
+  background: rgba(0,0,0,0.85); 
   z-index: 9999;
   display: flex;
   align-items: center;
@@ -144,7 +145,7 @@ section h4 {
   top: 50%;
   transform: translateY(-50%);
   font-size: 48px;
-  color: var(--dourado);
+  color: red;
   cursor: pointer;
   user-select: none;
 }

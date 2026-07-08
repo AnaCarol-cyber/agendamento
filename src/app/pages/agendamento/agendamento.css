@@ -64,65 +64,44 @@ nav a:hover {
    SEÇÃO AGENDAMENTO
 ========================= */
 .agendamento {
-  max-width: 520px;
-  margin: 60px auto;
-  padding: 40px;
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 25px;
   background: #fff;
-  border-radius: 14px;
-  box-shadow: 0 15px 35px rgba(0,0,0,0.15);
-}
-
-/* animação suave */
-.animar {
-  animation: subir 0.8s ease;
-}
-
-@keyframes subir {
-  from {
-    opacity: 0;
-    transform: translateY(25px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  font-family: Arial, sans-serif;
 }
 
 .agendamento h2 {
-  font-family: 'Yeseva One', serif;
   text-align: center;
-  color: var(--marrom);
-  margin-bottom: 25px;
+  color: #5d4037;
+  margin-bottom: 20px;
 }
 
-/* =========================
-   LABELS
-========================= */
+.agendamento form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
 .agendamento label {
-  display: block;
-  margin-top: 15px;
-  font-weight: 500;
-  color: var(--marrom);
+  font-weight: bold;
+  color: #5d4037;
 }
 
-/* =========================
-   INPUTS E SELECTS
-========================= */
 .agendamento input,
-.agendamento select {
-  width: 100%;
-  padding: 12px;
-  margin-top: 5px;
+.agendamento select,
+.agendamento textarea {
+  padding: 10px;
   border-radius: 6px;
   border: 1px solid #ccc;
   font-size: 14px;
 }
 
-.agendamento input:focus,
-.agendamento select:focus {
-  outline: none;
-  border-color: var(--dourado);
-  box-shadow: 0 0 0 2px rgba(200, 155, 60, 0.2);
+.agendamento textarea {
+  min-height: 80px;
+  resize: none;
 }
 
 /* =========================
@@ -166,20 +145,20 @@ nav a:hover {
 .lgpd {
   margin-top: 15px;
   padding: 15px;
-  background: #f9f6f2; /* tom bege suave */
+  background: #f9f6f2; 
   border-radius: 10px;
   border-left: 4px solid var(--dourado);
   box-shadow: 0 6px 14px rgba(0,0,0,0.08);
 }
 
 .lgpd input[type="checkbox"] {
-  accent-color: var(--dourado); /* cor personalizada do checkbox */
+  accent-color: var(--dourado); 
   transform: scale(1.2);
   cursor: pointer;
 }
 
 .lgpd label {
-  font-size: 13px; /* aumentei para melhor leitura */
+  font-size: 13px; 
   color: var(--marrom);
   font-weight: 500;
   margin-left: 8px;
@@ -187,7 +166,7 @@ nav a:hover {
 }
 
 .lgpd-texto {
-  font-size: 12px; /* aumentei para melhor leitura */
+  font-size: 12px; 
   color: #555;
   margin-top: 10px;
   line-height: 1.5;

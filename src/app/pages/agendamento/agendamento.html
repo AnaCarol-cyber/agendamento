@@ -1,32 +1,36 @@
 <section class="agendamento">
-  <h2>Agendamento de Serviço</h2>
+  <h2>Novo Agendamento</h2>
 
-  <form (ngSubmit)="confirmarAgendamento()" #formAgendamento="ngForm">
-    <!-- Nome -->
-    <label for="nome">Nome</label>
-    <input type="text" id="nome" [(ngModel)]="nome" name="nome" required />
+  <form (ngSubmit)="confirmarAgendamento()">
+    <label>Nome do Cliente:*</label>
+    <input type="text" [(ngModel)]="nome" name="nome" 
+           required pattern="[A-Za-zÀ-ÿ\s]+" title="Somente letras e espaços" />
 
-    <!-- WhatsApp -->
-    <label for="contato">WhatsApp</label>
-    <input type="text" id="contato" [(ngModel)]="contato" name="contato" required />
+    <label>Contato (WhatsApp com DDD):*</label>
+    <input type="text" [(ngModel)]="contato" name="contato" 
+           required pattern="[0-9]{10,11}" title="Digite apenas números com DDD (10 ou 11 dígitos)" />
 
-    <!-- Serviço -->
-    <label for="servico">Serviço</label>
-    <select id="servico" [(ngModel)]="servico" name="servico" required>
-      <option value="" disabled selected>Selecione um serviço</option>
-      <option value="Tranças">Tranças</option>
-      <option value="Penteado">Penteado</option>
-      <option value="Megahair">Megahair</option>
-      <option value="Outro">Outro</option>
+    <label>Serviço:*</label>
+    <select [(ngModel)]="servico" name="servico" (change)="atualizarHorarios()" required>
+      <option value="trança">Trança (4h30)</option>
+      <option value="penteado">Penteado (1h30)</option>
+      <option value="megahair">Megahair (2h)</option>
     </select>
 
-    <!-- Data -->
-    <label for="data">Data</label>
-    <input type="date" id="data" [(ngModel)]="data" name="data" required />
+    <label>Data:*</label>
+    <input type="date" [(ngModel)]="data" name="data" required />
 
-    <!-- Horário -->
-    <label for="horario">Horário</label>
-    <input type="time" id="horario" [(ngModel)]="horario" name="horario" required />
+    <label>Horário:*</label>
+    <select [(ngModel)]="horario" name="horario" required>
+      <option *ngFor="let h of horariosDisponiveis" [value]="h">{{h}}</option>
+    </select>
+
+    <label>Mensagem/Observação:</label>
+    <textarea [(ngModel)]="mensagem" name="mensagem"
+              placeholder="Observações do cliente ou notas internas..."></textarea>
+
+    <label>Foto do Modelo (opcional):</label>
+    <input type="file" (change)="uploadFoto($event)" accept="image/*" />
 
     <!-- LGPD -->
     <div class="lgpd">
@@ -42,9 +46,6 @@
       </p>
     </div>
 
-    <!-- Botão -->
-    <button type="submit" [disabled]="!formAgendamento.form.valid">
-      Confirmar Agendamento
-    </button>
+    <button type="submit">Salvar Agendamento</button>
   </form>
 </section>

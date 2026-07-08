@@ -2,6 +2,10 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
+import Chart from 'chart.js/auto';
+
 
 @Component({
   selector: 'app-dashboard',
@@ -22,6 +26,30 @@ export class Dashboard {
     this.carregarAgendamentos();
   }
 
+calcularRendimentos() {
+  return this.agendamentos
+    .filter(a => a.status === 'Confirmado')
+    .reduce((total, a) => total + (a.valor || 0), 0);
+}
+
+gerarRelatorioPDF() {
+  const doc = new jsPDF();
+
+  doc.text("Relatório de Agendamentos", 14, 20);
+
+  autoTable(doc, {
+    head: [['Nome','Serviço','Data','Horário','Valor','Status']],
+    body: this.agendamentos.map(a => [
+      a.nome, a.servico, a.data, a.horario, a.valor || '', a.status
+    ]),
+    startY: 30
+  });
+
+  const rendimentos = this.calcularRendimentos();
+  doc.text(`Rendimentos Confirmados: R$ ${rendimentos}`, 14, (doc as any).lastAutoTable.finalY + 20);
+
+  doc.save('relatorio_agendamentos.pdf');
+}
   carregarAgendamentos() {
     this.agendamentos = JSON.parse(localStorage.getItem('agendamentos') || '[]');
     this.agendamentos.forEach(a => {
@@ -31,33 +59,38 @@ export class Dashboard {
     });
   }
 
-  // Valida horário de funcionamento
   validarHorario(agendamento: any): boolean {
     const data = new Date(`${agendamento.data}T${agendamento.horario}`);
-    const diaSemana = data.getDay(); // 0=Domingo, 6=Sábado
+    const diaSemana = data.getDay();
     const hora = data.getHours();
     const minutos = data.getMinutes();
 
-    // Não funciona em domingos
     if (diaSemana === 0) return false;
-
-    // Horário permitido: 08h às 22h
     if (hora < 8 || (hora >= 22 && minutos > 0)) return false;
 
     return true;
   }
 
-  // Duração dos serviços
+fotoSelecionada: string | null = null;
+
+abrirModal(foto: string) {
+  this.fotoSelecionada = foto;
+}
+
+fecharModal() {
+  this.fotoSelecionada = null;
+}
+
+
   getDuracaoServico(servico: string): number {
     switch (servico.toLowerCase()) {
-      case 'trança': return 270; // 4h30
-      case 'penteado': return 90; // 1h30
-      case 'megahair': return 120; // 2h
+      case 'trança': return 270;
+      case 'penteado': return 90;
+      case 'megahair': return 120;
       default: return 60;
     }
   }
 
-  // SALVAR VALOR → envia link de pagamento
   adicionarValor(agendamento: any, valor: number) {
     if (!this.validarHorario(agendamento)) {
       alert("Horário inválido! Funcionamos de segunda a sábado, das 08h às 22h.");
@@ -94,7 +127,6 @@ ${linkPagamento}`;
     window.open(`https://wa.me/${numeroAdmin}?text=${encodeURIComponent(mensagem)}`, '_blank');
   }
 
-  // CONFIRMAR → só depois do pagamento
   confirmarAgendamento(agendamento: any) {
     agendamento.status = 'Confirmado';
     this.salvar();
@@ -149,22 +181,47 @@ Data: ${agendamento.data} às ${agendamento.horario}
     return lista;
   }
 
-  exportarCSV() {
-    const linhas = [
-      ['Nome','Contato','Serviço','Data','Horário','Valor','Status'],
-      ...this.agendamentos.map(a => [
-        a.nome, a.contato, a.servico, a.data, a.horario, a.valor, a.status
-      ])
-    ];
-    const csv = linhas.map(l => l.join(',')).join('\n');
-    const blob = new Blob([csv], { type: 'text/csv' });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'agendamentos.csv';
-    a.click();
-    window.URL.revokeObjectURL(url);
-  }
+  ngAfterViewInit() {
+  this.renderizarGraficos();
+}
+renderizarGraficos() {
+  const statusCounts = {
+    pendente: this.agendamentos.filter(a => a.status === 'Pendente').length,
+    confirmado: this.agendamentos.filter(a => a.status === 'Confirmado').length,
+    cancelado: this.agendamentos.filter(a => a.status === 'Cancelado').length,
+  };
+
+  new Chart(document.getElementById('graficoStatus') as HTMLCanvasElement, {
+    type: 'pie',
+    data: {
+      labels: ['Pendentes', 'Confirmados', 'Cancelados'],
+      datasets: [{
+        data: [statusCounts.pendente, statusCounts.confirmado, statusCounts.cancelado],
+        backgroundColor: ['#fbc02d', '#4caf50', '#e53935']
+      }]
+    }
+  });
+
+  const rendimentosPorMes: { [mes: string]: number } = {};
+  this.agendamentos.filter(a => a.status === 'Confirmado').forEach(a => {
+    const mes = new Date(a.data).toLocaleString('pt-BR', { month: 'short' });
+    rendimentosPorMes[mes] = (rendimentosPorMes[mes] || 0) + (a.valor || 0);
+  });
+
+  new Chart(document.getElementById('graficoRendimentos') as HTMLCanvasElement, {
+    type: 'bar',
+    data: {
+      labels: Object.keys(rendimentosPorMes),
+      datasets: [{
+        label: 'Rendimentos (R$)',
+        data: Object.values(rendimentosPorMes),
+        backgroundColor: '#4caf50'
+      }]
+    }
+  });
+}
+
+
 
   toggleMenu() {
     this.menuAberto = !this.menuAberto;

@@ -11,29 +11,67 @@ import { Router } from '@angular/router';
 })
 export class Servicos {
   servicos = [
-    { nome: 'Box Braids', preco: 250, imagem: 'assets/img/boxbraids.jpg' },
-    { nome: 'Nagô', preco: 150, imagem: 'assets/img/nago.jpg' },
-    { nome: 'Twist', preco: 200, imagem: 'assets/img/twist.jpg' },
-    { nome: 'Megahair', preco: 400, imagem: 'assets/img/megahair.jpg' }
+    { nome: 'Box Braids', preco: 200, imagem: 'assets/img/14.jpeg' },
+    { nome: 'Nagô', preco: 150, imagem: 'assets/img/27.jpeg' },
+    { nome: 'Twist', preco: 200, imagem: 'assets/img/penteado3.jpg' },
+    { nome: 'Megahair', preco: 400, imagem: 'assets/img/22.jpeg' },
+    { nome: 'Tranças Soltas', preco: 200, imagem: 'assets/img/37.jpeg' },
+    { nome: 'Penteado', preco: 150, imagem: 'assets/img/6.jpeg' }
   ];
 
   modeloArquivo: File | null = null;
 
+  modelos = [
+  'assets/img/1.jpeg','assets/img/2.jpeg','assets/img/3.jpeg','assets/img/4.jpeg',
+  'assets/img/5.jpeg','assets/img/6.jpeg','assets/img/7.jpeg','assets/img/8.jpeg',
+  'assets/img/9.jpeg','assets/img/10.jpeg','assets/img/11.jpeg','assets/img/12.jpeg',
+  'assets/img/13.jpeg','assets/img/14.jpeg','assets/img/15.jpeg','assets/img/16.jpeg',
+  'assets/img/17.jpeg','assets/img/18.jpeg','assets/img/19.jpeg','assets/img/20.jpeg',
+  'assets/img/21.jpeg','assets/img/22.jpeg','assets/img/23.jpeg','assets/img/24.jpeg',
+  'assets/img/25.jpeg','assets/img/26.jpeg','assets/img/27.jpeg','assets/img/28.jpeg',
+  'assets/img/29.jpeg','assets/img/30.jpeg','assets/img/31.jpeg','assets/img/32.jpeg',
+  'assets/img/33.jpeg','assets/img/34.jpeg','assets/img/35.jpeg','assets/img/36.jpeg',
+  'assets/img/37.jpeg','assets/img/38.jpeg','assets/img/39.jpeg','assets/img/40.jpeg',
+  'assets/img/41.jpeg','assets/img/42.jpeg','assets/img/43.jpeg','assets/img/44.jpeg',
+  'assets/img/penteado1.jpg','assets/img/penteado2.jpg','assets/img/penteado3.jpg',
+  'assets/img/penteado4.jpg'
+];
+
+
   constructor(private router: Router) {}
+
+modalAberto = false;
+imagemSelecionada: string | null = null;
+servicoSelecionado: any = null;
+
+abrirModal(servico: any) {
+  this.modalAberto = true;
+  this.imagemSelecionada = servico.imagem;
+  this.servicoSelecionado = servico.nome ? servico : null;
+}
+
+fecharModal() {
+  this.modalAberto = false;
+  this.imagemSelecionada = null;
+  this.servicoSelecionado = null;
+}
+
 
   selecionarServico(servico: any) {
     this.router.navigate(['/agendamento'], { queryParams: { servico: servico.nome } });
   }
 
-  enviarModelo(event: any) {
-    this.modeloArquivo = event.target.files[0];
-    if (this.modeloArquivo) {
-      console.log('Modelo enviado:', this.modeloArquivo.name);
-    }
-  }
+
 
   irParaAgendamento() {
-    // Redireciona para agendamento com flag de modelo próprio
     this.router.navigate(['/agendamento'], { queryParams: { modeloProprio: true } });
+  }
+
+  irParaAgendamentoGeral() {
+    this.router.navigate(['/agendamento']);
+  }
+
+  irParaAgendamentoExistente() {
+    this.router.navigate(['/agendamento'], { queryParams: { modeloExistente: true } });
   }
 }

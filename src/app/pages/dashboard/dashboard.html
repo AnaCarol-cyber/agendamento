@@ -37,7 +37,7 @@
     </select>
 
     <input type="text" [(ngModel)]="busca" placeholder="Buscar por nome ou serviço..." />
-    <button (click)="exportarCSV()">Exportar CSV</button>
+   
   </div>
 
   <!-- Tabela de agendamentos -->
@@ -49,6 +49,9 @@
         <th>Serviço</th>
         <th>Data</th>
         <th>Horário</th>
+        <th>Mensagem</th>
+        <th>Foto</th>
+        <th>Consentimento</th>
         <th>Valor</th>
         <th>Status</th>
         <th>Ações</th>
@@ -61,6 +64,36 @@
         <td>{{agendamento.servico}}</td>
         <td>{{agendamento.data}}</td>
         <td>{{agendamento.horario}}</td>
+        <td>{{agendamento.mensagem || '—'}}</td>
+     <td>
+  <img *ngIf="agendamento.foto" 
+       [src]="agendamento.foto" 
+       alt="Modelo" 
+       width="80" 
+       (click)="abrirModal(agendamento.foto)" 
+       class="foto-miniatura" />
+  <span *ngIf="!agendamento.foto">—</span>
+</td>
+
+<div class="modal-foto" *ngIf="fotoSelecionada">
+  <div class="modal-conteudo">
+    <button class="fechar" (click)="fecharModal()">✖</button>
+    <img [src]="fotoSelecionada" alt="Foto ampliada" />
+  </div>
+</div>
+
+<!-- Modal para visualização da foto -->
+<div class="modal-foto" *ngIf="fotoSelecionada" (click)="fecharModal()">
+  <div class="modal-conteudo">
+    <img [src]="fotoSelecionada" alt="Foto ampliada" />
+  </div>
+</div>
+
+
+        <td>
+          <span *ngIf="agendamento.consentimento">✔️ Autorizado</span>
+          <span *ngIf="!agendamento.consentimento">❌ Não autorizado</span>
+        </td>
         <td>
           <input type="number" [(ngModel)]="agendamento.valor" placeholder="R$" />
           <button (click)="adicionarValor(agendamento, agendamento.valor)">
@@ -80,8 +113,27 @@
         <td>
           <button (click)="confirmarAgendamento(agendamento)">Confirmar</button>
           <button (click)="cancelarAgendamento(agendamento)">Cancelar</button>
+
+          
         </td>
       </tr>
     </tbody>
   </table>
+<div class="graficos">
+  <h3>Visão Geral</h3>
+  <canvas id="graficoStatus"></canvas>
+  <canvas id="graficoRendimentos"></canvas>
+</div>
+
+<div class="resumo-rendimentos">
+  <h3>Rendimentos Confirmados</h3>
+  <p>R$ {{ calcularRendimentos() }}</p>
+</div>
+
+<!-- Botão separado para gerar relatório -->
+<div class="relatorio">
+  <button (click)="gerarRelatorioPDF()">Gerar Relatório PDF</button>
+</div>
+
+
 </section>

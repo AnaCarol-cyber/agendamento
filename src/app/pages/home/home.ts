@@ -19,7 +19,11 @@ export class Home {
     'assets/img/images1.jpg',
     'assets/img/imagem2.jpg',
     'assets/img/imagem3.webp',
-    'assets/img/imagem4.png'
+    'assets/img/imagem4.png',
+    'assets/img/2.jpeg',
+    'assets/img/22.jpeg',
+    'assets/img/28.jpeg'
+
   ];
 
   modalAberto = false;

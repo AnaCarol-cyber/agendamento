@@ -1,109 +1,230 @@
-/* =========================
-   SERVIÇOS
-========================= */
 .servicos-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 25px;
-  margin: 30px 0;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 8px;
+  margin: 8px 6px;
 }
 
 .servico {
   background: #fff;
   padding: 20px;
   border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  box-shadow: 0 8px 10px rgba(0,0,0,0.1);
   text-align: center;
   transition: transform 0.3s ease;
+  max-width: 300px;   
+  margin: 0 auto;     
 }
 
 .servico:hover {
   transform: translateY(-5px);
+  box-shadow: 0 12px 20px rgba(0,0,0,0.2);
 }
-
 .servico img {
   width: 100%;
-  height: 200px;
+  max-width: 300px;  
+  height: 300px;      
   object-fit: cover;
   border-radius: 10px;
   cursor: pointer;
   transition: 0.3s;
-}
-
-.servico img:hover {
-  transform: scale(1.05);
+  margin: 0 auto;
 }
 
 .servico h3 {
-  margin: 12px 0 6px;
-  color: var(--marrom);
-  font-family: 'Yeseva One', serif;
+  margin: 10px 0 6px;
+  font-size: 16px;    
 }
 
 .servico p {
-  color: var(--dourado);
-  font-weight: bold;
-  margin-bottom: 10px;
+  font-size: 14px;    
+  margin-bottom: 8px;
 }
 
-.servico button {
-  margin-top: 10px;
-  padding: 10px 20px;
+.agendamento-geral {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.agendamento-geral button {
+  padding: 12px 25px;
   background: var(--marrom);
-  color: #fff;
+  color: #c60b0b;
   border: none;
   border-radius: 25px;
   cursor: pointer;
-  transition: 0.3s;
   font-weight: 600;
+  transition: 0.3s;
 }
 
-.servico button:hover {
+.agendamento-geral button:hover {
   background: var(--dourado);
 }
 
-/* =========================
-   MODELO PRÓPRIO
-========================= */
-.modelo-proprio {
-  margin-top: 40px;
-  padding: 25px;
+/* Modelo existente */
+.modelo-existente {
+  margin-top: 30px;
+  padding: 20px;
   background: #fff;
   border-radius: 12px;
   box-shadow: 0 8px 20px rgba(0,0,0,0.1);
   text-align: center;
 }
 
-.modelo-proprio h3 {
+.modelo-existente h3 {
   color: var(--marrom);
   margin-bottom: 10px;
   font-family: 'Yeseva One', serif;
 }
 
-.modelo-proprio p {
+.modelo-existente p {
   margin-bottom: 15px;
   color: var(--texto);
 }
 
-.modelo-proprio input[type="file"] {
-  margin: 10px 0;
-  padding: 8px;
-}
-
-.modelo-proprio button {
-  margin-top: 15px;
-  padding: 12px 25px;
+.modelo-existente button {padding: 12px 25px;
   background: var(--marrom);
-  color: #fff;
+  color: #fbfbfb;
   border: none;
   border-radius: 25px;
   cursor: pointer;
-  transition: 0.3s;
   font-weight: 600;
+ background:rgb(160, 116, 21);
+
+  
 }
 
-.modelo-proprio button:hover {
-  background: var(--dourado);
+.modelo-existente button:hover {  
+   background: rgb(205, 195, 54);
+  transition: 0.3s;
+}
+
+.modal-foto {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.modal-conteudo {
+  position: relative;
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  max-width: 90%;
+  max-height: 90%;
+  text-align: center;
+}
+
+.modal-conteudo img {
+  max-width: 100%;
+  max-height: 70vh;
+  border-radius: 10px;
+  margin-bottom: 15px;
+}
+
+.modal-conteudo h3 {
+  margin: 8px 0;
+  color: var(--marrom);
+}
+
+.modal-conteudo p {
+  margin-bottom: 10px;
+  color: var(--dourado);
+  font-weight: bold;
+}
+
+.modal-conteudo button {  padding: 12px 25px;
+  background: var(--marrom);
+  color: #fbfbfb;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: 600;
+ background:rgb(160, 116, 21);
+}
+
+.modal-conteudo button:hover {
+   background: rgb(205, 195, 54);
+}
+
+.modal-conteudo .fechar {
+  position: absolute;
+  top: -15px;
+  right: -15px;
+  background: #e53935;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 8px 12px;
+}
+
+.modal-conteudo .fechar:hover {
+  background: #c62828;
+}
+
+
+/* Galeria */
+.galeria-modelos {
+  margin-top: 40px;
+  padding: 20px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.galeria-modelos h3 {
+  color: var(--marrom);
+  margin-bottom: 15px;
+  font-family: 'Yeseva One', serif;
+}
+
+.galeria-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 12px;
+}
+
+.galeria-grid img {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.galeria-grid img:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+/* Depoimentos */
+.depoimentos {
+  margin-top: 40px;
+  padding: 20px;
+  background: #f9f6f2;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.depoimentos h3 {
+  color: var(--marrom);
+  margin-bottom: 15px;
+  font-family: 'Yeseva One', serif;
+}
+
+.depoimentos blockquote {
+  font-style: italic;
+  margin: 10px 0;
+  color: #333;
 }
 
 /* =========================

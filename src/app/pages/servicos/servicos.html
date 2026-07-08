@@ -1,18 +1,52 @@
-<h2>Serviços</h2>
-
+<!-- Grid de serviços -->
 <div class="servicos-grid">
   <div class="servico" *ngFor="let s of servicos">
-    <img [src]="s.imagem" [alt]="s.nome" (click)="selecionarServico(s)" />
+    <img [src]="s.imagem" [alt]="s.nome" (click)="abrirModal(s)" />
     <h3>{{ s.nome }}</h3>
     <p>R$ {{ s.preco }}</p>
     <button (click)="selecionarServico(s)">Agendar</button>
   </div>
 </div>
 
-<!-- Upload de modelo próprio -->
-<section class="modelo-proprio">
-  <h3>Não encontrou o modelo?</h3>
-  <p>Envie sua foto e siga para o agendamento.</p>
-  <input type="file" (change)="enviarModelo($event)" />
-  <button (click)="irParaAgendamento()">Agendar com meu modelo</button>
+<!-- Modal flutuante -->
+<div class="modal-foto" *ngIf="modalAberto" (click)="fecharModal()">
+  <div class="modal-conteudo" (click)="$event.stopPropagation()">
+    <img [src]="imagemSelecionada" alt="Modelo selecionado" />
+    <h3 *ngIf="servicoSelecionado">{{ servicoSelecionado.nome }}</h3>
+    <p *ngIf="servicoSelecionado">R$ {{ servicoSelecionado.preco }}</p>
+    <button *ngIf="servicoSelecionado" (click)="selecionarServico(servicoSelecionado)">Agendar</button>
+    <button class="fechar" (click)="fecharModal()">X</button>
+  </div>
+</div>
+
+
+
+<!-- Botão geral de agendamento -->
+<div class="agendamento-geral">
+  <button (click)="irParaAgendamentoGeral()">Ir para Agendamento</button>
+</div>
+
+<!-- Opção para quem já tem modelo -->
+<section class="modelo-existente">
+  <h3>Já tem um modelo pronto?</h3>
+  <p>Você pode enviar sua foto diretamente na página de agendamento.</p>
+  <button (click)="irParaAgendamentoExistente()">Agendar com meu modelo existente</button>
+</section>
+
+
+<!-- Galeria de modelos -->
+<section class="galeria-modelos">
+  <h3>Modelos já realizados</h3>
+  <div class="galeria-grid">
+    <img *ngFor="let foto of modelos" [src]="foto" (click)="abrirModal({imagem: foto})" />
+  </div>
+</section>
+
+<!-- Depoimentos -->
+<section class="depoimentos">
+  <h3>O que nossos clientes dizem</h3>
+  <blockquote>"Adorei minhas tranças, ficaram perfeitas!" – Carol</blockquote>
+  <blockquote>"Atendimento excelente e resultado incrível." – Juliana</blockquote>
+    <blockquote>"Metodo indolor, amei já estou ansiosa para a próxima!" – Ana</blockquote>
+
 </section>
