@@ -64,25 +64,86 @@ header a:hover::after {
 }
 
 /* Responsivo */
+
+/* Telas médias (até 1200px) */
+@media (max-width: 1200px) {
+  header h1 {
+    font-size: 55px;
+  }
+  header ul {
+    gap: 35px;
+  }
+  header a {
+    font-size: 21px;
+  }
+}
+
+/* Tablets (até 992px) */
+@media (max-width: 992px) {
+  header .slogan {
+    width: 140px;
+  }
+  header h1 {
+    font-size: 50px;
+  }
+  header ul {
+    gap: 25px;
+  }
+  header a {
+    font-size: 20px;
+  }
+}
+
+/* Celulares grandes (até 768px) */
 @media (max-width: 768px) {
+  header {
+    padding: 15px 20px;
+  }
 
-  header .slogan{
+  header .slogan {
     position: static;
-    display:block;
-    margin:0 auto 15px;
-    width:130px;
+    display: block;
+    margin: 0 auto 15px;
+    width: 130px;
   }
 
-  header h1{
-    font-size:45px;
+  header h1 {
+    font-size: 40px;
+    margin-bottom: 12px;
   }
 
-  header ul{
-    flex-wrap:wrap;
-    gap:20px;
+  header ul {
+    flex-wrap: wrap;
+    gap: 20px;
   }
 
-  header a{
-    font-size:18px;
+  header a {
+    font-size: 18px;
+  }
+}
+
+/* Celulares pequenos (até 480px) */
+@media (max-width: 480px) {
+  header {
+    padding: 12px 15px;
+  }
+
+  header h1 {
+    font-size: 32px;
+    margin-bottom: 10px;
+  }
+
+  header ul {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  header a {
+    font-size: 16px;
+  }
+
+  header .slogan {
+    width: 100px;
+    margin-bottom: 10px;
   }
 }

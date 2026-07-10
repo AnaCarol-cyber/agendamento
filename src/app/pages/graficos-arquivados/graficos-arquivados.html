@@ -1,0 +1,61 @@
+<header class="dashboard-header">
+  <div class="usuario-logado">
+    <span class="icone-usuario" (click)="toggleMenu()">☰</span>
+    <div class="menu-usuario" *ngIf="menuAberto">
+      <a routerLink="/dashboard">Dashboard</a>
+      <a routerLink="/home-admin">Editar Home</a>
+      <a routerLink="/servicos-admin">Serviços</a>
+      <a routerLink="/graficos-arquivados">Gráficos & Arquivados</a>
+      <button (click)="sair()">Sair</button>
+    </div>
+  </div>
+  <h2>{{ tituloPagina }}</h2>
+</header>
+
+<section class="graficos-arquivados">
+  <div class="filtros">
+    <label for="statusFiltro">Filtrar por status:</label>
+    <select id="statusFiltro" [(ngModel)]="statusFiltro">
+      <option value="">Todos</option>
+      <option value="Pendente">Pendentes</option>
+      <option value="Confirmado">Confirmados</option>
+      <option value="Cancelado">Cancelados</option>
+    </select>
+    <input type="text" [(ngModel)]="busca" placeholder="Buscar por nome ou serviço..." />
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>Serviço</th>
+        <th>Data</th>
+        <th>Horário</th>
+        <th>Valor</th>
+        <th>Status</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let agendamento of getAgendamentosFiltrados()">
+        <td>{{ agendamento.nome }}</td>
+        <td>{{ agendamento.servico }}</td>
+        <td>{{ agendamento.data }}</td>
+        <td>{{ agendamento.horario }}</td>
+        <td>R$ {{ agendamento.valor || '—' }}</td>
+        <td>{{ agendamento.status }}</td>
+        <td>
+          <button (click)="restaurarAgendamento(agendamento)">Restaurar</button>
+          <button (click)="excluirDefinitivo(agendamento)">Excluir</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="graficos">
+    <h3>Visão Geral Arquivados</h3>
+    <canvas id="graficoStatusArquivados"></canvas>
+    <canvas id="graficoRendimentosArquivados"></canvas>
+  </div>
+  
+</section>

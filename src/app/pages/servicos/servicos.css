@@ -20,6 +20,7 @@
   transform: translateY(-5px);
   box-shadow: 0 12px 20px rgba(0,0,0,0.2);
 }
+
 .servico img {
   width: 100%;
   max-width: 300px;  
@@ -41,27 +42,9 @@
   margin-bottom: 8px;
 }
 
-.agendamento-geral {
-  text-align: center;
-  margin: 20px 0;
-}
-
-.agendamento-geral button {
-  padding: 12px 25px;
-  background: var(--marrom);
-  color: #c60b0b;
-  border: none;
-  border-radius: 25px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: 0.3s;
-}
-
-.agendamento-geral button:hover {
-  background: var(--dourado);
-}
-
-/* Modelo existente */
+/* =========================
+   MODELO EXISTENTE
+========================= */
 .modelo-existente {
   margin-top: 30px;
   padding: 20px;
@@ -75,30 +58,33 @@
   color: var(--marrom);
   margin-bottom: 10px;
   font-family: 'Yeseva One', serif;
+  font-size: 20px;
 }
 
 .modelo-existente p {
   margin-bottom: 15px;
   color: var(--texto);
+  font-size: 14px;
 }
 
-.modelo-existente button {padding: 12px 25px;
-  background: var(--marrom);
-  color: #fbfbfb;
+.modelo-existente button {
+  padding: 12px 25px;
+  background: rgb(160, 116, 21);
+  color: #fff;
   border: none;
   border-radius: 25px;
   cursor: pointer;
   font-weight: 600;
- background:rgb(160, 116, 21);
-
-  
+  transition: background 0.3s, transform 0.2s;
 }
 
-.modelo-existente button:hover {  
-   background: rgb(205, 195, 54);
-  transition: 0.3s;
+.modelo-existente button:hover {
+  background: rgb(205, 195, 54);
+  color: #000;
+  transform: scale(1.05);
 }
 
+/* Modal */
 .modal-foto {
   position: fixed;
   top: 0; left: 0;
@@ -127,30 +113,23 @@
   margin-bottom: 15px;
 }
 
-.modal-conteudo h3 {
-  margin: 8px 0;
-  color: var(--marrom);
-}
 
-.modal-conteudo p {
-  margin-bottom: 10px;
-  color: var(--dourado);
-  font-weight: bold;
-}
-
-.modal-conteudo button {  padding: 12px 25px;
-  background: var(--marrom);
-  color: #fbfbfb;
-  border: none;
-  border-radius: 25px;
+.seta {
   cursor: pointer;
-  font-weight: 600;
- background:rgb(160, 116, 21);
+  position: absolute;
+  top: 50%;
+  font-size: 30px;
+  color: #fff;
+  padding: 10px;
+  user-select: none;
+  transition: 0.3s;
+  z-index: 1000;
 }
 
-.modal-conteudo button:hover {
-   background: rgb(205, 195, 54);
-}
+.seta.esquerda { left: -40px; }
+.seta.direita { right: -40px; }
+
+.seta:hover { color: #fbc02d; }
 
 .modal-conteudo .fechar {
   position: absolute;
@@ -168,7 +147,6 @@
 .modal-conteudo .fechar:hover {
   background: #c62828;
 }
-
 
 /* Galeria */
 .galeria-modelos {
@@ -230,12 +208,71 @@
 /* =========================
    RESPONSIVO
 ========================= */
+@media (max-width: 1200px) {
+  .servicos-grid {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  }
+  .servico img { height: 250px; }
+  .seta.esquerda { left: -30px; }
+  .seta.direita { right: -30px; }
+}
+
+@media (max-width: 992px) {
+  .servicos-grid {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+  .servico img { height: 220px; }
+  .seta.esquerda { left: -25px; }
+  .seta.direita { right: -25px; }
+}
+
 @media (max-width: 768px) {
   .servicos-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr;}
+   .modelo-existente {
+    padding: 15px;
   }
 
-  .servico img {
-    height: 180px;
+  .modelo-existente h3 {
+    font-size: 18px;
+  }
+
+  .modelo-existente p {
+    font-size: 13px;
+  }
+
+  .modelo-existente button {
+    width: 100%;
+    padding: 12px;
+    font-size: 14px;
+  }
+  
+  .servico img { height: 180px; }
+  .seta { font-size: 26px; }
+  .seta.esquerda { left: -20px; }
+  .seta.direita { right: -20px; }
+}
+
+@media (max-width: 480px) {
+  .servico { padding: 12px; }
+  .servico img { height: 150px; }
+  .seta { font-size: 22px; }
+  .seta.esquerda { left: -15px; }
+  .seta.direita { right: -15px; }
+   .modelo-existente {
+    padding: 12px;
+  }
+
+  .modelo-existente h3 {
+    font-size: 16px;
+  }
+
+  .modelo-existente p {
+    font-size: 12px;
+  }
+
+  .modelo-existente button {
+    font-size: 13px;
+    padding: 10px;
   }
 }

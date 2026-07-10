@@ -2,61 +2,31 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import jsPDF from 'jspdf';
+import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
-import Chart from 'chart.js/auto';
-
+import { RouterModule } from '@angular/router';
+import { HostListener } from '@angular/core';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule,RouterModule],
   templateUrl: './dashboard.html',
   styleUrls: ['./dashboard.css']
 })
 export class Dashboard {
+  tituloPagina: string = 'Dashboard Administrativo';
   usuarioLogado: string | null = null;
   agendamentos: any[] = [];
   statusFiltro: string = '';
   busca: string = '';
   menuAberto: boolean = false;
+  mostrandoArquivados: boolean = false;
+  fotoSelecionada: string | null = null;
 
   constructor(private router: Router) {
     this.usuarioLogado = localStorage.getItem('usuarioLogado');
     this.carregarAgendamentos();
-  }
-
-calcularRendimentos() {
-  return this.agendamentos
-    .filter(a => a.status === 'Confirmado')
-    .reduce((total, a) => total + (a.valor || 0), 0);
-}
-
-gerarRelatorioPDF() {
-  const doc = new jsPDF();
-
-  doc.text("Relatório de Agendamentos", 14, 20);
-
-  autoTable(doc, {
-    head: [['Nome','Serviço','Data','Horário','Valor','Status']],
-    body: this.agendamentos.map(a => [
-      a.nome, a.servico, a.data, a.horario, a.valor || '', a.status
-    ]),
-    startY: 30
-  });
-
-  const rendimentos = this.calcularRendimentos();
-  doc.text(`Rendimentos Confirmados: R$ ${rendimentos}`, 14, (doc as any).lastAutoTable.finalY + 20);
-
-  doc.save('relatorio_agendamentos.pdf');
-}
-  carregarAgendamentos() {
-    this.agendamentos = JSON.parse(localStorage.getItem('agendamentos') || '[]');
-    this.agendamentos.forEach(a => {
-      if (!a.status) {
-        a.status = 'Pendente';
-      }
-    });
   }
 
   validarHorario(agendamento: any): boolean {
@@ -64,23 +34,10 @@ gerarRelatorioPDF() {
     const diaSemana = data.getDay();
     const hora = data.getHours();
     const minutos = data.getMinutes();
-
     if (diaSemana === 0) return false;
     if (hora < 8 || (hora >= 22 && minutos > 0)) return false;
-
     return true;
   }
-
-fotoSelecionada: string | null = null;
-
-abrirModal(foto: string) {
-  this.fotoSelecionada = foto;
-}
-
-fecharModal() {
-  this.fotoSelecionada = null;
-}
-
 
   getDuracaoServico(servico: string): number {
     switch (servico.toLowerCase()) {
@@ -96,7 +53,6 @@ fecharModal() {
       alert("Horário inválido! Funcionamos de segunda a sábado, das 08h às 22h.");
       return;
     }
-
     agendamento.valor = valor;
     this.salvar();
 
@@ -109,7 +65,6 @@ fecharModal() {
       'penteado': 'https://pay.sumup.com/b2c/QZOEYC4V',
       'megahair': 'https://pay.sumup.com/b2c/Q86EAM7H'
     };
-
     const servico = agendamento.servico.toLowerCase();
     const linkPagamento = links[servico] || 'https://pay.sumup.com';
 
@@ -163,15 +118,62 @@ Data: ${agendamento.data} às ${agendamento.horario}
     this.salvar();
   }
 
-  salvar() {
-    localStorage.setItem('agendamentos', JSON.stringify(this.agendamentos));
+  arquivarAgendamento(agendamento: any) {
+    let arquivados = JSON.parse(localStorage.getItem('agendamentosArquivados') || '[]');
+    arquivados.push(agendamento);
+    localStorage.setItem('agendamentosArquivados', JSON.stringify(arquivados));
+    this.agendamentos = this.agendamentos.filter(a => a !== agendamento);
+    this.salvar();
   }
+
+  excluirAgendamento(agendamento: any) {
+    if (confirm("Deseja excluir este agendamento permanentemente?")) {
+      this.agendamentos = this.agendamentos.filter(a => a !== agendamento);
+      this.salvar();
+    }
+  }
+
+  visualizarArquivados() {
+    this.mostrandoArquivados = true;
+    this.agendamentos = JSON.parse(localStorage.getItem('agendamentosArquivados') || '[]');
+  }
+
+  voltarDashboard() {
+    this.mostrandoArquivados = false;
+    this.carregarAgendamentos();
+  }
+
+  calcularRendimentos() {
+    return this.agendamentos
+      .filter(a => a.status === 'Confirmado')
+      .reduce((total, a) => total + (a.valor || 0), 0);
+  }
+
+  gerarRelatorioPDF() {
+    const doc = new jsPDF();
+    doc.text("Relatório de Agendamentos", 14, 20);
+    autoTable(doc, {
+      head: [['Nome','Serviço','Data','Horário','Valor','Status']],
+      body: this.agendamentos.map(a => [
+        a.nome, a.servico, a.data, a.horario, a.valor || '', a.status
+      ]),
+      startY: 30
+    });
+    const rendimentos = this.calcularRendimentos();
+    doc.text(`Rendimentos Confirmados: R$ ${rendimentos}`, 14, (doc as any).lastAutoTable.finalY + 20);
+    doc.save('relatorio_agendamentos.pdf');
+  }
+
+  carregarAgendamentos() {
+    this.agendamentos = JSON.parse(localStorage.getItem('agendamentos') || '[]');
+    this.agendamentos.forEach(a => { if (!a.status) a.status = 'Pendente'; });
+  }
+
+  salvar() { localStorage.setItem('agendamentos', JSON.stringify(this.agendamentos)); }
 
   getAgendamentosFiltrados() {
     let lista = this.agendamentos;
-    if (this.statusFiltro) {
-      lista = lista.filter(a => a.status === this.statusFiltro);
-    }
+    if (this.statusFiltro) lista = lista.filter(a => a.status === this.statusFiltro);
     if (this.busca) {
       lista = lista.filter(a =>
         a.nome.toLowerCase().includes(this.busca.toLowerCase()) ||
@@ -181,54 +183,19 @@ Data: ${agendamento.data} às ${agendamento.horario}
     return lista;
   }
 
-  ngAfterViewInit() {
-  this.renderizarGraficos();
-}
-renderizarGraficos() {
-  const statusCounts = {
-    pendente: this.agendamentos.filter(a => a.status === 'Pendente').length,
-    confirmado: this.agendamentos.filter(a => a.status === 'Confirmado').length,
-    cancelado: this.agendamentos.filter(a => a.status === 'Cancelado').length,
-  };
+  abrirModal(foto: string) { this.fotoSelecionada = foto; }
+  fecharModal() { this.fotoSelecionada = null; }
 
-  new Chart(document.getElementById('graficoStatus') as HTMLCanvasElement, {
-    type: 'pie',
-    data: {
-      labels: ['Pendentes', 'Confirmados', 'Cancelados'],
-      datasets: [{
-        data: [statusCounts.pendente, statusCounts.confirmado, statusCounts.cancelado],
-        backgroundColor: ['#fbc02d', '#4caf50', '#e53935']
-      }]
+  toggleMenu() { 
+    this.menuAberto = !this.menuAberto; }
+    sair() { localStorage.removeItem('usuarioLogado'); this.router.navigate(['/login']); }
+
+    @HostListener('document:click', ['$event'])
+  fecharMenuAoClicarFora(event: Event) {
+    const target = event.target as HTMLElement;
+    const dentroDoMenu = target.closest('.menu-usuario') || target.closest('.icone-usuario');
+    if (!dentroDoMenu) {
+      this.menuAberto = false;
     }
-  });
-
-  const rendimentosPorMes: { [mes: string]: number } = {};
-  this.agendamentos.filter(a => a.status === 'Confirmado').forEach(a => {
-    const mes = new Date(a.data).toLocaleString('pt-BR', { month: 'short' });
-    rendimentosPorMes[mes] = (rendimentosPorMes[mes] || 0) + (a.valor || 0);
-  });
-
-  new Chart(document.getElementById('graficoRendimentos') as HTMLCanvasElement, {
-    type: 'bar',
-    data: {
-      labels: Object.keys(rendimentosPorMes),
-      datasets: [{
-        label: 'Rendimentos (R$)',
-        data: Object.values(rendimentosPorMes),
-        backgroundColor: '#4caf50'
-      }]
-    }
-  });
-}
-
-
-
-  toggleMenu() {
-    this.menuAberto = !this.menuAberto;
-  }
-
-  sair() {
-    localStorage.removeItem('usuarioLogado');
-    this.router.navigate(['/login']);
   }
 }

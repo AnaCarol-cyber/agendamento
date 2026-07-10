@@ -1,0 +1,65 @@
+<header class="dashboard-header">
+  <div class="usuario-logado">
+    <span class="icone-usuario" (click)="toggleMenu()">☰</span>
+    <div class="menu-usuario" *ngIf="menuAberto">
+      <a routerLink="/dashboard">Dashboard</a>
+      <a routerLink="/home-admin">Editar Home</a>
+      <a routerLink="/servicos-admin">Serviços</a>
+      <a routerLink="/graficos-arquivados">Gráficos & Arquivados</a>
+      <button (click)="sair()">Sair</button>
+    </div>
+  </div>
+  <h2>{{ tituloPagina }}</h2>
+</header>
+
+<section class="home-admin">
+  <!-- Formulário de edição -->
+  <form (ngSubmit)="salvarHome()">
+    <label for="titulo">Título principal:</label>
+    <input id="titulo" type="text" [(ngModel)]="titulo" name="titulo" />
+
+    <label for="descricao">Descrição:</label>
+    <textarea id="descricao" [(ngModel)]="descricao" name="descricao"></textarea>
+
+    <label for="sobreMim">Sobre Mim:</label>
+    <textarea id="sobreMim" [(ngModel)]="sobreMim" name="sobreMim"></textarea>
+
+    <label for="curiosidades">Curiosidades:</label>
+    <textarea id="curiosidades" [(ngModel)]="curiosidades" name="curiosidades"></textarea>
+
+    <label for="localizacao">Localização:</label>
+    <textarea id="localizacao" [(ngModel)]="localizacao" name="localizacao"></textarea>
+
+    <label for="imagem">Imagem de destaque:</label>
+    <input id="imagem" type="file" (change)="uploadImagem($event)" accept="image/*" />
+
+    <div *ngIf="imagem" class="preview">
+      <h4>Pré-visualização da imagem:</h4>
+      <img [src]="imagem" alt="Imagem de destaque" />
+    </div>
+
+    <button type="submit">Salvar Alterações</button>
+  </form>
+
+  <!-- Pré-visualização estilizada -->
+  <div class="preview-home">
+    <h1>{{ titulo }}</h1>
+    <p>{{ descricao }}</p>
+    <img *ngIf="imagem" [src]="imagem" alt="Imagem da Home" />
+
+    <section class="sobre">
+      <h2>Sobre Mim</h2>
+      <p>{{ sobreMim }}</p>
+    </section>
+
+    <section class="curiosidades">
+      <h3>Curiosidades</h3>
+      <p>{{ curiosidades }}</p>
+    </section>
+
+    <section class="localizacao">
+      <h2>Localização</h2>
+      <p>{{ localizacao }}</p>
+    </section>
+  </div>
+</section>

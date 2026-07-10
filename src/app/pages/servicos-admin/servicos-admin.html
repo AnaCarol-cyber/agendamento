@@ -1,0 +1,45 @@
+<header class="dashboard-header">
+  <div class="usuario-logado">
+    <span class="icone-usuario" (click)="toggleMenu()">☰</span>
+    <div class="menu-usuario" *ngIf="menuAberto">
+      <a routerLink="/dashboard">Dashboard</a>
+      <a routerLink="/home-admin">Editar Home</a>
+      <a routerLink="/servicos-admin">Serviços</a>
+      <a routerLink="/graficos-arquivados">Gráficos & Arquivados</a>
+      <button (click)="sair()">Sair</button>
+    </div>
+  </div>
+  <h2>{{ tituloPagina }}</h2>
+</header>
+
+<section class="servicos-admin">
+  <form (ngSubmit)="adicionarServico()">
+    <label for="nome">Nome do Serviço:</label>
+    <input id="nome" type="text" [(ngModel)]="novoServico.nome" name="nome" />
+
+    <label for="duracao">Duração (minutos):</label>
+    <input id="duracao" type="number" [(ngModel)]="novoServico.duracao" name="duracao" />
+
+    <label for="preco">Preço:</label>
+    <input id="preco" type="number" [(ngModel)]="novoServico.preco" name="preco" />
+
+    <label for="imagem">Imagem:</label>
+    <input id="imagem" type="file" (change)="uploadImagem($event)" accept="image/*" />
+
+    <div *ngIf="novoServico.imagem" class="preview">
+      <h4>Pré-visualização:</h4>
+      <img [src]="novoServico.imagem" alt="Imagem do serviço" />
+    </div>
+
+    <button type="submit">Adicionar Serviço</button>
+  </form>
+
+  <ul class="lista-servicos">
+    <li *ngFor="let servico of servicos">
+      <img *ngIf="servico.imagem" [src]="servico.imagem" width="80" />
+      <strong>{{ servico.nome }}</strong> - {{ servico.duracao }} min - R${{ servico.preco }}
+      <button (click)="editarServico(servico)">Editar</button>
+      <button (click)="excluirServico(servico)">Excluir</button>
+    </li>
+  </ul>
+</section>

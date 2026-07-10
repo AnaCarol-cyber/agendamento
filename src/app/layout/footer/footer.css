@@ -51,7 +51,6 @@
   background:#3b1f14;
 }
 
-/* slogan no canto inferior direito */
 
 .footer-slogan{
   position:absolute;
@@ -61,13 +60,91 @@
   height:auto;
 }
 
-@media(max-width:768px){
 
-  .footer-slogan{
-    position:static;
-    display:block;
-    margin:20px auto 10px;
-    width:120px;
+/* =========================
+   RESPONSIVO COMPLETO
+========================= */
+
+/* Telas grandes até 1200px */
+@media (max-width: 1200px) {
+  .footer-container {
+    gap: 100px;
+  }
+  .footer-slogan {
+    width: 120px;
+  }
+}
+
+/* Tablets até 992px */
+@media (max-width: 992px) {
+  .footer-container {
+    gap: 60px;
+  }
+  .footer h3 {
+    font-size: 16px;
+  }
+  .footer p,
+  .footer a {
+    font-size: 13px;
+  }
+  .social img {
+    width: 30px;
+  }
+}
+
+/* Celulares grandes até 768px */
+@media (max-width: 768px) {
+  .footer-container {
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    text-align: center;
   }
 
+  .footer-slogan {
+    position: static;
+    display: block;
+    margin: 20px auto 10px;
+    width: 120px;
+  }
+
+  .footer h3 {
+    font-size: 15px;
+  }
+
+  .footer p,
+  .footer a {
+    font-size: 12px;
+  }
+}
+
+/* Celulares pequenos até 480px */
+@media (max-width: 480px) {
+  .footer-container {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    text-align: center;
+  }
+
+  .footer h3 {
+    font-size: 14px;
+  }
+
+  .footer p,
+  .footer a {
+    font-size: 12px;
+  }
+
+  .social img {
+    width: 28px;
+    margin: 0 5px;
+  }
+
+  .footer-slogan {
+    width: 100px;
+    margin: 15px auto 5px;
+  }
+
+  .footer-copy {
+    font-size: 12px;
+  }
 }

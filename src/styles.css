@@ -47,8 +47,8 @@ main.conteudo {
 ========================= */
 .whatsapp-fixo {
   position: fixed;
-  bottom: 25px;
-  right: 25px;
+  bottom: 20dvh;
+  right: 2px;
   background: #25d366;
   color: #fff;
   width: 60px;
@@ -60,7 +60,7 @@ main.conteudo {
   justify-content: center;
   text-decoration: none;
   box-shadow: 0 8px 18px rgba(0,0,0,0.3);
-  z-index: 9999;
+  z-index: 1;
 }
 
 .whatsapp-fixo:hover {

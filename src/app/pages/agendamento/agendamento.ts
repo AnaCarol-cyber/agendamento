@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { RouterModule, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-agendamento',
@@ -22,6 +22,26 @@ export class Agendamento {
 
   horariosDisponiveis: string[] = [];
 
+  // novos campos para receber da rota
+  servicoSelecionado: string | null = null;
+  imagemSelecionada: string | null = null;
+
+  constructor(private route: ActivatedRoute) {}
+
+  ngOnInit() {
+    // recupera os parâmetros enviados pela página de serviços
+    this.route.queryParams.subscribe((params: any) => {
+      this.servicoSelecionado = params['servico'] || null;
+      this.imagemSelecionada = params['imagem'] || null;
+
+      // se veio um serviço selecionado, já preenche o campo
+      if (this.servicoSelecionado) {
+        this.servico = this.servicoSelecionado;
+        this.atualizarHorarios();
+      }
+    });
+  }
+
   validarHorario(): boolean {
     const dataAg = new Date(`${this.data}T${this.horario}`);
     const diaSemana = dataAg.getDay(); 
@@ -36,9 +56,9 @@ export class Agendamento {
 
   atualizarHorarios() {
     let duracao = 60;
-    if (this.servico.toLowerCase() === 'trança') duracao = 270;
-    else if (this.servico.toLowerCase() === 'penteado') duracao = 90;
-    else if (this.servico.toLowerCase() === 'megahair') duracao = 120;
+    if (this.servico?.toLowerCase() === 'trança') duracao = 270;
+    else if (this.servico?.toLowerCase() === 'penteado') duracao = 90;
+    else if (this.servico?.toLowerCase() === 'megahair') duracao = 120;
 
     this.horariosDisponiveis = [];
     let hora = 8 * 60; 
@@ -53,7 +73,7 @@ export class Agendamento {
   }
 
   uploadFoto(event: any) {
-    const file = event.target.files[0];
+    const file = (event.target as HTMLInputElement)?.files?.[0];
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {
@@ -63,9 +83,10 @@ export class Agendamento {
     }
   }
 
-confirmarAgendamento() {
-  
-  if (!this.nome || !this.contato || !this.servico || !this.data || !this.horario) {
+ confirmarAgendamento() {
+  const servicoFinal = this.servicoSelecionado || this.servico;
+
+  if (!this.nome || !this.contato || !servicoFinal || !this.data || !this.horario) {
     alert("Preencha todos os campos obrigatórios antes de salvar.");
     return;
   }
@@ -83,11 +104,12 @@ confirmarAgendamento() {
   const novoAgendamento = {
     nome: this.nome,
     contato: this.contato,
-    servico: this.servico,
+    servico: servicoFinal,
+    imagem: this.imagemSelecionada,
     data: this.data,
     horario: this.horario,
     mensagem: this.mensagem,
-    foto: this.foto,        
+    foto: this.foto,
     consentimento: this.consentimento,
     status: 'Pendente'
   };
@@ -98,7 +120,6 @@ confirmarAgendamento() {
 
   alert('Agendamento enviado! Aguarde contato para pagamento.');
 
-
   this.nome = '';
   this.contato = '';
   this.servico = '';
@@ -108,6 +129,5 @@ confirmarAgendamento() {
   this.foto = '';
   this.consentimento = false;
   this.horariosDisponiveis = [];
-}
   }
-
+}

@@ -1,0 +1,85 @@
+/* =========================
+   CABEÇALHO
+========================= */
+.dashboard-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.dashboard-header h2 {
+  font-family: 'Yeseva One', serif;
+  color: #5d4037;
+  font-size: 24px;
+  text-align: center;
+  flex: 1;
+}
+
+.usuario-logado {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  cursor: pointer;
+}
+
+.icone-usuario { font-size: 22px; color: #5d4037; }
+
+.menu-usuario {
+  display: flex;
+  flex-direction: column;
+  background: #f9f6f2;
+  border-radius: 8px;
+  padding: 10px;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.1);
+}
+
+.menu-usuario a {
+  margin: 5px 0;
+  text-decoration: none;
+  color: #5d4037;
+  font-weight: bold;
+  padding: 6px 10px;
+  border-radius: 4px;
+  transition: background 0.3s, color 0.3s;
+}
+
+.menu-usuario a:hover {
+  background: #fbc02d;
+  color: #000;
+}
+
+.menu-usuario a.ativo {
+  color: #d4a017;
+  font-weight: bold;
+}
+
+.menu-usuario button {
+  margin-top: 10px;
+  background: #e53935;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+
+.menu-usuario button:hover {
+  background: #fbc02d;
+  color: #000;
+}
+
+.servicos-admin { max-width: 700px; margin: 30px auto; padding: 20px; background: #fff; border-radius: 12px; box-shadow: 0 6px 14px rgba(0,0,0,0.1); }
+.servicos-admin label { display: block; margin-top: 10px; font-weight: bold; color: #5d4037; }
+.servicos-admin input { width: 100%; padding: 8px; border-radius: 6px; border: 1px solid #ccc; margin-top: 5px; }
+.servicos-admin .preview { margin-top: 15px; text-align: center; }
+.servicos-admin .preview img { max-width: 100%; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+.servicos-admin button { margin-top: 20px; background: #4caf50; color: #fff; border: none; border-radius: 6px; padding: 10px 16px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+.servicos-admin button:hover { background: #fbc02d; color: #000; }
+.lista-servicos { margin-top: 20px; list-style: none; padding: 0; }
+.lista-servicos li { margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+.lista-servicos button { background: #5d4037; color: #fff; border: none; border-radius: 6px; padding: 6px 12px; cursor: pointer; font-size: 12px; }
+.lista-servicos button:hover { background: #fbc02d; color: #000; }

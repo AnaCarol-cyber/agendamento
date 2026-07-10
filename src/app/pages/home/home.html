@@ -1,3 +1,11 @@
+<!-- CONTEÚDO EDITÁVEL DA HOME -->
+<section class="home-conteudo animar" *ngIf="titulo || descricao || imagem">
+  <h1 *ngIf="titulo">{{ titulo }}</h1>
+  <p *ngIf="descricao">{{ descricao }}</p>
+  <img *ngIf="imagem" [src]="imagem" alt="Imagem da Home" />
+</section>
+
+
 <!-- GALERIA -->
 <section class="galeria">
   <h2>Meus Trabalhos</h2>
@@ -14,7 +22,7 @@
 </section>
 
 <!-- SOBRE -->
-<section class="sobre animar">
+<section class="sobre animar" >
   <h2>Sobre Mim</h2>
   <p>Olá! Sou a Ana, especialista em tranças e penteados. Com anos de experiência, transformo cabelos em verdadeiras obras de arte.</p>
   <p>Meu compromisso é realçar a beleza única de cada cliente, oferecendo um serviço personalizado e de alta qualidade.</p>
@@ -33,12 +41,15 @@
 </section>
 
 <!-- MODAL DE IMAGEM -->
-<div class="modal" *ngIf="modalAberto">
-  <span class="fechar" (click)="fecharImagem()">&times;</span>
-  <span class="seta esquerda" (click)="imagemAnterior()">&#10094;</span>
-  <img class="modal-conteudo" [src]="imagens[indiceImagem]" alt="Imagem ampliada" />
-  <span class="seta direita" (click)="proximaImagem()">&#10095;</span>
+<div class="modal" *ngIf="modalAberto" (click)="fecharImagem()">
+  <div class="modal-conteudo" (click)="$event.stopPropagation()">
+    <span class="fechar" (click)="fecharImagem()">&times;</span>
+    <span class="seta esquerda" (click)="imagemAnterior()">&#10094;</span>
+    <img [src]="imagens[indiceImagem]" alt="Imagem ampliada" />
+    <span class="seta direita" (click)="proximaImagem()">&#10095;</span>
+  </div>
 </div>
+
 
 <!-- LOCALIZAÇÃO -->
 <section class="localizacao animar">

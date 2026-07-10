@@ -1,5 +1,5 @@
 <section class="agendamento">
-  <h2>Novo Agendamento</h2>
+<h2>Dashboard Administrativo</h2>
 
   <form (ngSubmit)="confirmarAgendamento()">
     <label>Nome do Cliente:*</label>
@@ -10,12 +10,14 @@
     <input type="text" [(ngModel)]="contato" name="contato" 
            required pattern="[0-9]{10,11}" title="Digite apenas números com DDD (10 ou 11 dígitos)" />
 
-    <label>Serviço:*</label>
-    <select [(ngModel)]="servico" name="servico" (change)="atualizarHorarios()" required>
-      <option value="trança">Trança (4h30)</option>
-      <option value="penteado">Penteado (1h30)</option>
-      <option value="megahair">Megahair (2h)</option>
-    </select>
+   <label *ngIf="!servicoSelecionado">Serviço:*</label>
+<select *ngIf="!servicoSelecionado"
+        [(ngModel)]="servico" name="servico"
+        (change)="atualizarHorarios()" required>
+  <option value="trança">Trança (4h30)</option>
+  <option value="penteado">Penteado (1h30)</option>
+  <option value="megahair">Megahair (2h)</option>
+</select>
 
     <label>Data:*</label>
     <input type="date" [(ngModel)]="data" name="data" required />
@@ -28,6 +30,12 @@
     <label>Mensagem/Observação:</label>
     <textarea [(ngModel)]="mensagem" name="mensagem"
               placeholder="Observações do cliente ou notas internas..."></textarea>
+
+  <!-- Preview do serviço já escolhido -->
+<div class="preview-selecionado" *ngIf="servicoSelecionado">
+  <h3>Serviço escolhido: {{ servicoSelecionado }}</h3>
+  <img *ngIf="imagemSelecionada" [src]="imagemSelecionada" alt="Modelo selecionado" />
+</div>
 
     <label>Foto do Modelo (opcional):</label>
     <input type="file" (change)="uploadFoto($event)" accept="image/*" />

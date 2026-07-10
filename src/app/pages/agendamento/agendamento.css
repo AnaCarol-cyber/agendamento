@@ -60,6 +60,19 @@ nav a:hover {
   color: var(--dourado);
 }
 
+.preview-selecionado {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.preview-selecionado img {
+  max-width: 220px;
+  max-height: 160px;
+  border-radius: 10px;
+  margin-top: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
 /* =========================
    SEÇÃO AGENDAMENTO
 ========================= */

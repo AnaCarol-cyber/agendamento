@@ -116,46 +116,49 @@ section h4 {
 ========================= */
 .modal {
   position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.85); 
-  z-index: 9999;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.8);
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  z-index: 999;
 }
 
 .modal-conteudo {
+  position: relative;
   max-width: 90%;
   max-height: 90%;
-  border-radius: 10px;
-  box-shadow: 0 0 25px rgba(0,0,0,0.6);
-}
-
-.fechar {
-  position: absolute;
-  top: 22px;
-  right: 28px;
-  font-size: 42px;
-  color: #fff;
-  cursor: pointer;
 }
 
 .seta {
+  cursor: pointer;
   position: absolute;
   top: 50%;
-  transform: translateY(-50%);
-  font-size: 48px;
-  color: red;
-  cursor: pointer;
-  user-select: none;
-}
-
-.seta:hover {
+  font-size: 30px;
   color: #fff;
+  padding: 10px;
+  user-select: none;
+  transition: 0.3s;
 }
 
-.seta.esquerda { left: 18px; }
-.seta.direita { right: 18px; }
+.seta.esquerda { left: -40px; }
+.seta.direita { right: -40px; }
+
+.seta:hover { color: #fbc02d; }
+
+.fechar {
+  position: absolute;
+  top: -20px;
+  right: -20px;
+  background: #e53935;
+  color: #fff;
+  border-radius: 50%;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 8px 12px;
+}
+.fechar:hover { background: #c62828; }
 
 /* =========================
    LOCALIZAÇÃO
