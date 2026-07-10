@@ -4,10 +4,11 @@
     <div class="usuario-logado">
       <span class="icone-usuario" (click)="toggleMenu()">☰</span>
       <div class="menu-usuario" *ngIf="menuAberto">
-     <a routerLink="/dashboard" routerLinkActive="ativo" (click)="menuAberto=false">Dashboard</a>
-<a routerLink="/home-admin" routerLinkActive="ativo" (click)="menuAberto=false">Editar Home</a>
-<a routerLink="/servicos-admin" routerLinkActive="ativo" (click)="menuAberto=false">Serviços</a>
-<a routerLink="/graficos-arquivados" routerLinkActive="ativo" (click)="menuAberto=false">Gráficos & Arquivados</a>
+        <a routerLink="/dashboard" routerLinkActive="ativo" (click)="menuAberto=false">Dashboard</a>
+        <a routerLink="/home-admin" routerLinkActive="ativo" (click)="menuAberto=false">Editar Home</a>
+        <a routerLink="/servicos-admin" routerLinkActive="ativo" (click)="menuAberto=false">Serviços</a>
+        <a routerLink="/graficos-arquivados" routerLinkActive="ativo" (click)="menuAberto=false">Gráficos &
+          Arquivados</a>
 
         <button (click)="sair()">Sair</button>
       </div>
@@ -73,13 +74,13 @@
         <td>{{agendamento.contato}}</td>
         <td>{{agendamento.servico}}</td>
         <td>
-          <img *ngIf="agendamento.imagem" [src]="agendamento.imagem" width="80"
-               (click)="abrirModal(agendamento.imagem)" class="foto-miniatura" />
+          <img *ngIf="agendamento.imagem" [src]="agendamento.imagem" width="80" (click)="abrirModal(agendamento.imagem)"
+            class="foto-miniatura" />
           <span *ngIf="!agendamento.imagem">—</span>
         </td>
         <td>
-          <img *ngIf="agendamento.foto" [src]="agendamento.foto" width="80"
-               (click)="abrirModal(agendamento.foto)" class="foto-miniatura" />
+          <img *ngIf="agendamento.foto" [src]="agendamento.foto" width="80" (click)="abrirModal(agendamento.foto)"
+            class="foto-miniatura" />
           <span *ngIf="!agendamento.foto">—</span>
         </td>
         <td>{{agendamento.data}}</td>
