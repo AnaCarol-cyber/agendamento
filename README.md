@@ -1,59 +1,71 @@
-# Agendamento
+# Tranças Bella - Dashboard & Site
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.13.
+Este projeto é um sistema completo para gerenciamento de serviços de tranças e penteados, incluindo:
+- **Site público** com informações, galeria e agendamento.
+- **Dashboard administrativo** para controle de clientes, serviços, status e relatórios.
 
-## Development server
+---
 
-To start a local development server, run:
+## 🚀 Tecnologias utilizadas
+- **Angular** (frontend)
+- **TypeScript**
+- **HTML5 / CSS3**
+- **LocalStorage** para persistência simples
+- **Responsividade** com media queries
 
-```bash
-ng serve
-```
+---
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## 📂 Estrutura do projeto
+- `src/app/pages/home` → Página inicial com galeria e modal de imagens.
+- `src/app/pages/servicos` → Lista de serviços e agendamento.
+- `src/app/pages/dashboard` → Painel administrativo com status, filtros e ações.
+- `src/app/pages/login` → Autenticação simples.
+- `src/app/guards/auth.guard.ts` → Proteção de rotas administrativas.
 
-## Code scaffolding
+---
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## 🔒 Autenticação
+- O acesso às rotas administrativas (`/home-admin`, `/servicos-admin`, `/graficos-arquivados`) é protegido pelo **AuthGuard**.
+- O login salva `usuarioLogado` no `localStorage`.
+- O logout remove essa chave e redireciona para `/login`.
 
-```bash
-ng generate component component-name
-```
+---
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## 🖼️ Funcionalidades principais
+- **Galeria com modal**: abre imagens em destaque, permite navegar com setas e teclado (← →, ESC).
+- **Dashboard administrativo**:
+  - Exibe status de agendamentos (Pendentes, Confirmados, Cancelados).
+  - Permite confirmar, cancelar ou arquivar serviços.
+  - Filtro por status e busca por nome/serviço.
+- **Responsividade**:
+  - Header e footer adaptados para todas as telas.
+  - Menu hambúrguer em mobile/tablet.
 
-```bash
-ng generate --help
-```
+---
 
-## Building
+## ⚙️ Instalação e execução
+1. Clone o repositório:
+   ```bash
+   git clone https://github.com/seuusuario/trancas-bella.git
+2. Instale as dependências:
+   npm install
+3.  Execute o servidor de desenvolvimento:
+   ng serve
 
-To build the project run:
+## 💡 Sugestões de melhoria
 
-```bash
-ng build
-```
+- Criar um **manual rápido do Admin** explicando como confirmar, cancelar e arquivar agendamentos.  
+- Adicionar **capturas de tela** da Home, Dashboard e Galeria para ilustrar o uso.  
+- Incluir uma seção de **Licença** (ex: MIT) caso o projeto seja público.  
+- Criar uma seção de **Autores/Contribuidores** para dar crédito.  
+- Implementar integração com um **backend real** (Firebase, Node.js) para persistência dos dados.  
+- Melhorar autenticação com **JWT** em vez de apenas `localStorage`
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+## 👩‍💻 Autoria
+Projeto desenvolvido por **Ana**, com foco em oferecer uma experiência moderna e prática para clientes e administradores do estúdio **Tranças Bella**.
 
-## Running unit tests
+## 📄 Licença
+Este projeto está licenciado sob a licença **MIT** – você pode usar, modificar e distribuir livremente, desde que mantenha os créditos originais e a mesma licença nos trabalhos derivados.
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+Para mais detalhes, consulte o arquivo [LICENSE](LICENSE).
 
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
