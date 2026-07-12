@@ -1,6 +1,7 @@
 <header class="dashboard-header">
   <div class="usuario-logado">
     <span class="icone-usuario" (click)="toggleMenu()">☰</span>
+
     <div class="menu-usuario" *ngIf="menuAberto">
       <a routerLink="/dashboard">Dashboard</a>
       <a routerLink="/home-admin">Editar Home</a>
@@ -9,53 +10,176 @@
       <button (click)="sair()">Sair</button>
     </div>
   </div>
+
   <h2>{{ tituloPagina }}</h2>
 </header>
 
 <section class="graficos-arquivados">
-  <div class="filtros">
-    <label for="statusFiltro">Filtrar por status:</label>
-    <select id="statusFiltro" [(ngModel)]="statusFiltro">
-      <option value="">Todos</option>
-      <option value="Pendente">Pendentes</option>
-      <option value="Confirmado">Confirmados</option>
-      <option value="Cancelado">Cancelados</option>
-    </select>
-    <input type="text" [(ngModel)]="busca" placeholder="Buscar por nome ou serviço..." />
+
+  <!-- BOTÃO -->
+  <div class="arquivados">
+    <button
+      *ngIf="!mostrandoArquivados"
+      (click)="visualizarArquivados()">
+
+      Ver Arquivados
+
+    </button>
+
+    <button
+      *ngIf="mostrandoArquivados"
+      (click)="voltarVisaoGeral()">
+
+      Voltar para Visão Geral
+
+    </button>
   </div>
 
-  <table>
-    <thead>
-      <tr>
-        <th>Nome</th>
-        <th>Serviço</th>
-        <th>Data</th>
-        <th>Horário</th>
-        <th>Valor</th>
-        <th>Status</th>
-        <th>Ações</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let agendamento of getAgendamentosFiltrados()">
-        <td>{{ agendamento.nome }}</td>
-        <td>{{ agendamento.servico }}</td>
-        <td>{{ agendamento.data }}</td>
-        <td>{{ agendamento.horario }}</td>
-        <td>R$ {{ agendamento.valor || '—' }}</td>
-        <td>{{ agendamento.status }}</td>
-        <td>
-          <button (click)="restaurarAgendamento(agendamento)">Restaurar</button>
-          <button (click)="excluirDefinitivo(agendamento)">Excluir</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <!-- VISÃO GERAL -->
+  <div *ngIf="!mostrandoArquivados">
 
-  <div class="graficos">
-    <h3>Visão Geral Arquivados</h3>
-    <canvas id="graficoStatusArquivados"></canvas>
-    <canvas id="graficoRendimentosArquivados"></canvas>
+    <div class="graficos">
+
+      <h3>Visão Geral</h3>
+
+      <canvas id="graficoStatusArquivados"></canvas>
+
+      <br><br>
+
+      <canvas id="graficoRendimentosArquivados"></canvas>
+
+    </div>
+
+    <div class="resumo-rendimentos">
+
+      <h3>Rendimentos Confirmados</h3>
+
+      <p>
+
+        <strong>
+
+          R$ {{ calcularRendimentos() }}
+
+        </strong>
+
+      </p>
+
+    </div>
+
+    <div class="relatorio">
+
+      <button (click)="gerarRelatorioPDF()">
+
+        Gerar Relatório PDF
+
+      </button>
+
+    </div>
+
   </div>
-  
+
+  <!-- ARQUIVADOS -->
+  <div *ngIf="mostrandoArquivados">
+
+    <div class="filtros">
+
+      <label>Filtrar por status:</label>
+
+      <select [(ngModel)]="statusFiltro">
+
+        <option value="">Todos</option>
+
+        <option value="Pendente">Pendente</option>
+
+        <option value="Confirmado">Confirmado</option>
+
+        <option value="Cancelado">Cancelado</option>
+
+      </select>
+
+      <input
+        type="text"
+        [(ngModel)]="busca"
+        placeholder="Buscar por nome ou serviço">
+
+    </div>
+
+    <table>
+
+      <thead>
+
+        <tr>
+
+          <th>Nome</th>
+          <th>Serviço</th>
+          <th>Data</th>
+          <th>Horário</th>
+          <th>Valor</th>
+          <th>Status</th>
+          <th>Ações</th>
+
+        </tr>
+
+      </thead>
+
+      <tbody>
+
+        <tr *ngFor="let agendamento of getAgendamentosFiltrados()">
+
+          <td>{{ agendamento.nome }}</td>
+
+          <td>{{ agendamento.servico }}</td>
+
+          <td>{{ agendamento.data }}</td>
+
+          <td>{{ agendamento.horario }}</td>
+
+          <td>
+
+            R$ {{ agendamento.valor || '-' }}
+
+          </td>
+
+          <td>
+
+            <span
+              class="badge"
+              [ngClass]="{
+                'pendente': agendamento.status === 'Pendente',
+                'confirmado': agendamento.status === 'Confirmado',
+                'cancelado': agendamento.status === 'Cancelado'
+              }">
+
+              {{ agendamento.status }}
+
+            </span>
+
+          </td>
+
+          <td>
+
+            <button
+              (click)="restaurarAgendamento(agendamento)">
+
+              Restaurar
+
+            </button>
+
+            <button
+              (click)="excluirDefinitivo(agendamento)">
+
+              Excluir
+
+            </button>
+
+          </td>
+
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
 </section>

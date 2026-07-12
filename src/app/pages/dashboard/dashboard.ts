@@ -24,10 +24,18 @@ export class Dashboard {
   mostrandoArquivados: boolean = false;
   fotoSelecionada: string | null = null;
 
-  constructor(private router: Router) {
+constructor(private router: Router) {
+
     this.usuarioLogado = localStorage.getItem('usuarioLogado');
+
+    if (!this.usuarioLogado) {
+        this.router.navigate(['/login']);
+        return;
+    }
+
     this.carregarAgendamentos();
-  }
+
+}
 
   validarHorario(agendamento: any): boolean {
     const data = new Date(`${agendamento.data}T${agendamento.horario}`);
@@ -133,15 +141,6 @@ Data: ${agendamento.data} às ${agendamento.horario}
     }
   }
 
-  visualizarArquivados() {
-    this.mostrandoArquivados = true;
-    this.agendamentos = JSON.parse(localStorage.getItem('agendamentosArquivados') || '[]');
-  }
-
-  voltarDashboard() {
-    this.mostrandoArquivados = false;
-    this.carregarAgendamentos();
-  }
 
   calcularRendimentos() {
     return this.agendamentos

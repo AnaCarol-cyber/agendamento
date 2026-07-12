@@ -18,7 +18,7 @@ export const routes: Routes = [
   { path: 'agendamento', component: Agendamento },
   { path: 'servicos', component: Servicos },
   { path: 'login', component: Login },
-  { path: 'dashboard', component: Dashboard },
+  { path: 'dashboard', component: Dashboard, canActivate:[AuthGuard]},
 
 
   { path: 'home-admin', component: HomeAdmin, canActivate: [AuthGuard] },

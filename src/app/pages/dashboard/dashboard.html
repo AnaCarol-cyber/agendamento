@@ -16,11 +16,7 @@
     <h2>{{ tituloPagina }}</h2>
   </header>
 
-  <!-- Botão alternar -->
-  <div class="arquivados">
-    <button *ngIf="!mostrandoArquivados" (click)="visualizarArquivados()">Ver Arquivados</button>
-    <button *ngIf="mostrandoArquivados" (click)="voltarDashboard()">Voltar ao Dashboard</button>
-  </div>
+
 
   <!-- Resumo rápido -->
   <div class="resumo" *ngIf="!mostrandoArquivados">
@@ -91,8 +87,27 @@
           <span *ngIf="!agendamento.consentimento">❌ Não autorizado</span>
         </td>
         <td>
-          <input type="number" [(ngModel)]="agendamento.valor" placeholder="R$" />
-          <button (click)="adicionarValor(agendamento, agendamento.valor)">Salvar e Enviar Pagamento</button>
+          <ng-container *ngIf="agendamento.status === 'Pendente'; else somenteLeitura">
+
+    <input
+      type="number"
+      [(ngModel)]="agendamento.valor"
+      placeholder="R$">
+
+    <button
+      (click)="adicionarValor(agendamento, agendamento.valor)">
+      Salvar e Enviar Pagamento
+    </button>
+
+</ng-container>
+
+<ng-template #somenteLeitura>
+
+    <span>
+      R$ {{ agendamento.valor || '-' }}
+    </span>
+
+</ng-template>
         </td>
         <td>
           <span class="badge" [ngClass]="{
