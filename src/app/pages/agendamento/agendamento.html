@@ -38,7 +38,8 @@
 </div>
 
     <label>Foto do Modelo (opcional):</label>
-    <input type="file" (change)="uploadFoto($event)" accept="image/*" />
+    <input type="file" #fotoInput (change)="uploadFoto($event)" accept="image/*" />
+
 
     <!-- LGPD -->
     <div class="lgpd">

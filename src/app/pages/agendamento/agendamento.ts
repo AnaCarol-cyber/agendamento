@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, ActivatedRoute } from '@angular/router';
@@ -19,11 +19,8 @@ export class Agendamento {
   mensagem: string = '';
   foto: string = '';
   consentimento: boolean = false;
-
   horariosDisponiveis: string[] = [];
-
-  // novos campos para receber da rota
-  servicoSelecionado: string | null = null;
+ servicoSelecionado: string | null = null;
   imagemSelecionada: string | null = null;
 
   constructor(private route: ActivatedRoute) {}
@@ -83,6 +80,8 @@ export class Agendamento {
     }
   }
 
+  @ViewChild('fotoInput') fotoInput!: ElementRef;
+
  confirmarAgendamento() {
   const servicoFinal = this.servicoSelecionado  || this.servico;
 
@@ -118,6 +117,8 @@ export class Agendamento {
   agendamentos.push(novoAgendamento);
   localStorage.setItem('agendamentos', JSON.stringify(agendamentos));
 
+  
+
   alert('Agendamento enviado! Aguarde contato para pagamento.');
 
   this.nome = '';
@@ -131,5 +132,8 @@ export class Agendamento {
   this.horariosDisponiveis = [];
   this.servicoSelecionado = null;
  this.imagemSelecionada = null;
+ if (this.fotoInput) {
+    this.fotoInput.nativeElement.value = '';
+  }
   }
 }
