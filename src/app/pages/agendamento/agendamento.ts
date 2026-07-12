@@ -77,14 +77,14 @@ export class Agendamento {
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {
-        this.foto = reader.result as string; // salva em base64
+        this.foto = reader.result as string; 
       };
       reader.readAsDataURL(file);
     }
   }
 
  confirmarAgendamento() {
-  const servicoFinal = this.servicoSelecionado || this.servico;
+  const servicoFinal = this.servicoSelecionado  || this.servico;
 
   if (!this.nome || !this.contato || !servicoFinal || !this.data || !this.horario) {
     alert("Preencha todos os campos obrigatórios antes de salvar.");
@@ -129,5 +129,7 @@ export class Agendamento {
   this.foto = '';
   this.consentimento = false;
   this.horariosDisponiveis = [];
+  this.servicoSelecionado = null;
+ this.imagemSelecionada = null;
   }
 }
