@@ -121,15 +121,82 @@
    FINANÇAS
 ========================= */
 .resumo-financeiro {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  display: flex;
+  flex-wrap: wrap;
   gap: 15px;
+  align-items: flex-start;
   margin-bottom: 20px;
 }
 
-.resumo-financeiro .card.entrada { background: #4caf50; }
-.resumo-financeiro .card.saida { background: #e53935; }
-.resumo-financeiro .card.saldo { background: #5d4037; }
+.botao-financeiro,
+.saldo-resumo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 14px;
+  min-width: 0;
+  border-radius: 12px;
+  text-align: center;
+  font-weight: bold;
+  border: none;
+  box-shadow: 0 6px 14px rgba(5, 239, 37, 0.1);
+  transition: transform 0.2s, filter 0.2s;
+}
+
+.botao-financeiro {
+  cursor: pointer;
+  color: #ebe9e9;
+  background: #4caf50;
+}
+
+.botao-financeiro.saida { background: #e53935; }
+.botao-financeiro:hover { transform: translateY(-2px); filter: brightness(1.03); }
+
+.saldo-resumo {
+  background: #e1e805;
+  color: #fff;
+}
+
+.detalhes-financeiro {
+  margin-bottom: 20px;
+  padding: 16px 18px;
+  background: #f9f6f2;
+  border-radius: 12px;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.05);
+}
+
+.detalhes-financeiro h4 {
+  margin: 0 0 10px;
+  color: #5d4037;
+}
+
+.detalhes-financeiro ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.detalhes-financeiro li {
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+}
+
+.detalhes-financeiro li:last-child {
+  border-bottom: none;
+}
+
+.linha-detalhe {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-weight: 700;
+}
+
+.detalhes-financeiro small {
+  display: block;
+  margin-top: 4px;
+  color: #555;
+}
 
 .controle-financeiro {
   display: grid;
@@ -173,6 +240,8 @@
   border: none;
   cursor: pointer;
   font-weight: bold;
+  padding: 4px 8px;
+  border-radius: 8px;
 }
 
 .lista-movimentacoes ul {
@@ -225,9 +294,15 @@
 /* =========================
    TABELA DE AGENDAMENTOS
 ========================= */
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
 table {
   width: 100%;
-  min-width: 980px;
+  min-width: 0;
   border-collapse: collapse;
   margin-top: 15px;
   table-layout: fixed;
@@ -239,11 +314,11 @@ thead {
 }
 
 th, td {
-  padding: 6px 7px;
+  padding: 8px 10px;
   border: 1px solid #ddd;
   text-align: center;
   font-size: 12px;
-  line-height: 1.25;
+  line-height: 1.4;
   vertical-align: middle;
   word-break: break-word;
   overflow-wrap: anywhere;
@@ -275,7 +350,6 @@ td input {
   box-sizing: border-box;
   font-size: 11px;
 }
-
 
 /* =========================
    BOTÕES DE AÇÃO
@@ -397,119 +471,110 @@ td button:hover { transform: translateY(-2px); }
    RESPONSIVO
 ========================= */
 
-.table-wrapper {
-  width: 100%;
-  overflow-x: auto;
-}
-
-/* Desktop grande (≥1200px) */
-@media (min-width: 1200px) {
+@media (max-width: 1200px) {
   .dashboard {
-    margin: 24px auto;
-    padding: 20px 24px;
-  }
-
-  table th, table td {
-    font-size: 14px;
-  }
-}
-
-/* Tablets médios (769px – 1023px) */
-@media (min-width: 769px) and (max-width: 1023px) {
-  .dashboard {
-    padding: 15px;
-    margin: 20px;
-  }
-
-  .dashboard-header h2 {
-    font-size: 22px;
+    padding: 18px;
+    margin: 22px;
   }
 
   .resumo,
   .resumo-financeiro {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 12px;
-  }
-
-  .card {
-    min-width: 0;
   }
 
   .controle-financeiro {
     grid-template-columns: 1fr;
   }
 
+  .form-financeiro,
+  .lista-movimentacoes {
+    width: 100%;
+  }
+
   .filtros {
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 12px;
   }
 
   .filtros input,
   .filtros select {
     flex: 1 1 45%;
+    min-width: 160px;
   }
 
-  table {
-    font-size: 10px;
-  }
-
-  th, td {
-    padding: 6px;
+  .botao-financeiro,
+  .saldo-resumo {
+    min-width: 150px;
   }
 }
 
-/* Tablets pequenos (até 992px) */
 @media (max-width: 992px) {
   .dashboard {
-    padding: 15px;
-    margin: 20px;
+    padding: 16px;
+    margin: 16px;
   }
 
   .dashboard-header h2 {
-    font-size: 20px;
+    font-size: 1.5rem;
   }
 
   .resumo,
   .resumo-financeiro {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: 1fr 1fr;
     gap: 12px;
-  }
-
-  .card {
-    min-width: 0;
   }
 
   .filtros {
     flex-direction: column;
-    align-items: stretch;
+    gap: 10px;
   }
 
   .filtros input,
   .filtros select {
     width: 100%;
   }
+
+  table th,
+  table td {
+    font-size: 11px;
+    padding: 6px 8px;
+  }
+
+  .foto-miniatura {
+    max-width: 40px;
+    max-height: 40px;
+  }
+
+  td button {
+    font-size: 9px;
+    padding: 3px 6px;
+  }
 }
 
-/* Smartphones (até 768px) */
 @media (max-width: 768px) {
   .dashboard {
-    padding: 10px;
+    padding: 12px;
     margin: 10px;
   }
 
   .dashboard-header {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: stretch;
   }
 
   .dashboard-header h2 {
-    font-size: 18px;
+    font-size: 1.3rem;
     text-align: left;
   }
 
   .usuario-logado {
     position: static;
+    width: 100%;
     margin-bottom: 10px;
+  }
+
+  .menu-usuario {
+    width: 100%;
   }
 
   .resumo,
@@ -525,11 +590,51 @@ td button:hover { transform: translateY(-2px); }
 
   .filtros {
     flex-direction: column;
+    gap: 10px;
+  }
+
+  .filtros label {
+    width: 100%;
+  }
+
+  .botao-financeiro,
+  .saldo-resumo {
+    width: 100%;
+    justify-content: space-between;
+    text-align: left;
+  }
+
+  .detalhes-financeiro ul li {
+    padding: 12px;
+  }
+
+  .lista-movimentacoes li {
+    flex-direction: column;
+    align-items: flex-start;
     gap: 8px;
   }
 
-  /* Tabela vira lista */
-  table, thead, tbody, th, td, tr {
+  .lista-movimentacoes li strong,
+  .lista-movimentacoes li span,
+  .lista-movimentacoes li small {
+    width: 100%;
+  }
+
+  .table-wrapper {
+    margin: 0 -10px;
+    padding: 0 10px;
+  }
+
+  table {
+    min-width: 100%;
+  }
+
+  table,
+  thead,
+  tbody,
+  th,
+  td,
+  tr {
     display: block;
   }
 
@@ -538,25 +643,89 @@ td button:hover { transform: translateY(-2px); }
   }
 
   tr {
-    margin-bottom: 15px;
+    margin-bottom: 16px;
+    padding: 14px 12px;
+    border-radius: 12px;
+    background: #fff;
     border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 10px;
-    background: #f9f6f2;
   }
 
   td {
     text-align: left;
-    padding: 6px;
+    padding: 10px 0;
     border: none;
     font-size: 12px;
+    position: relative;
+  }
+
+  td + td {
+    margin-top: 10px;
   }
 
   td::before {
     content: attr(data-label);
-    font-weight: bold;
     display: block;
+    font-weight: 700;
     margin-bottom: 4px;
     color: #5d4037;
+  }
+
+  td:nth-child(1)::before { content: "Nome"; }
+  td:nth-child(2)::before { content: "Contato"; }
+  td:nth-child(3)::before { content: "Solicitado em"; }
+  td:nth-child(4)::before { content: "Serviço"; }
+  td:nth-child(5)::before { content: "Modelo"; }
+  td:nth-child(6)::before { content: "Foto enviada"; }
+  td:nth-child(7)::before { content: "Data"; }
+  td:nth-child(8)::before { content: "Horário"; }
+  td:nth-child(9)::before { content: "Mensagem"; }
+  td:nth-child(10)::before { content: "Consentimento"; }
+  td:nth-child(11)::before { content: "Valor"; }
+  td:nth-child(12)::before { content: "Status"; }
+  td:nth-child(13)::before { content: "Ações"; }
+
+  .badge,
+  .badge-financeiro,
+  td button,
+  .saldo-resumo,
+  .botao-financeiro {
+    width: auto;
+  }
+
+  .foto-miniatura {
+    max-width: 100%;
+    max-height: 80px;
+  }
+
+  .modal-conteudo img {
+    max-width: 95%;
+    max-height: 80vh;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard {
+    padding: 10px;
+    margin: 8px;
+  }
+
+  .dashboard-header h2 {
+    font-size: 1.15rem;
+  }
+
+  .resumo {
+    gap: 8px;
+  }
+
+  .filtros {
+    gap: 8px;
+  }
+
+  td {
+    font-size: 11px;
+  }
+
+  td::before {
+    font-size: 12px;
   }
 }

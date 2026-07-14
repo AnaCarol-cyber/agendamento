@@ -24,6 +24,7 @@ export class Dashboard {
   menuAberto = false;
   mostrandoArquivados = false;
   fotoSelecionada: string | null = null;
+  detalheFinanceiroSelecionado: 'entrada' | 'saida' | null = null;
   novaMovimentacao = { descricao: '', valor: 0, data: '', tipo: 'entrada' };
 
   constructor(private router: Router) {
@@ -189,6 +190,48 @@ Data: ${agendamento.data} às ${agendamento.horario}
 
   calcularRendimentos() {
     return this.calcularEntradas();
+  }
+
+  selecionarDetalhesFinanceiro(tipo: 'entrada' | 'saida') {
+    this.detalheFinanceiroSelecionado = this.detalheFinanceiroSelecionado === tipo ? null : tipo;
+  }
+
+  getDetalhesFinanceiro(tipo: 'entrada' | 'saida') {
+    const detalhesMovimentacoes = this.movimentacoesFinanceiras
+      .filter((m) => m.tipo === tipo)
+      .map((m) => ({
+        data: m.data,
+        valor: Number(m.valor),
+        descricao: m.descricao || 'Movimentação manual'
+      }));
+
+    if (tipo === 'entrada') {
+      const entradasAgendamentos = this.agendamentos
+        .filter((a) => a.status === 'Confirmado' && Number(a.valor || 0) > 0)
+        .map((a) => ({
+          data: a.data,
+          valor: Number(a.valor || 0),
+          descricao: `Agendamento: ${a.servico}`
+        }));
+
+      return [...entradasAgendamentos, ...detalhesMovimentacoes]
+        .sort((a, b) => new Date(a.data).getTime() - new Date(b.data).getTime());
+    }
+
+    return detalhesMovimentacoes.sort((a, b) => new Date(a.data).getTime() - new Date(b.data).getTime());
+  }
+
+  formatarData(valor: string | null | undefined): string {
+    if (!valor) {
+      return '—';
+    }
+
+    const data = new Date(valor);
+    if (Number.isNaN(data.getTime())) {
+      return '—';
+    }
+
+    return data.toLocaleDateString('pt-BR');
   }
 
   formatarDataHora(valor: string | null | undefined): string {

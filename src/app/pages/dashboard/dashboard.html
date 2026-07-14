@@ -34,18 +34,34 @@
   </div>
 
   <div class="resumo-financeiro">
-    <div class="card entrada">
+    <button type="button" class="botao-financeiro entrada" (click)="selecionarDetalhesFinanceiro('entrada')">
       <h3>Entradas</h3>
       <p>R$ {{ calcularEntradas().toFixed(2) }}</p>
-    </div>
-    <div class="card saida">
+    </button>
+    <button type="button" class="botao-financeiro saida" (click)="selecionarDetalhesFinanceiro('saida')">
       <h3>Saídas</h3>
       <p>R$ {{ calcularSaidas().toFixed(2) }}</p>
-    </div>
-    <div class="card saldo">
+    </button>
+    <div class="saldo-resumo">
       <h3>Saldo</h3>
       <p>R$ {{ calcularSaldo().toFixed(2) }}</p>
     </div>
+  </div>
+
+  <div class="detalhes-financeiro" *ngIf="detalheFinanceiroSelecionado">
+    <h4>Detalhes de {{ detalheFinanceiroSelecionado === 'entrada' ? 'Entradas' : 'Saídas' }}</h4>
+    <ul>
+      <li *ngFor="let item of getDetalhesFinanceiro(detalheFinanceiroSelecionado)">
+        <div class="linha-detalhe">
+          <span>{{ formatarData(item.data) }}</span>
+          <span>R$ {{ item.valor.toFixed(2) }}</span>
+        </div>
+        <small>{{ item.descricao }}</small>
+      </li>
+      <li *ngIf="getDetalhesFinanceiro(detalheFinanceiroSelecionado).length === 0">
+        Nenhum registro de {{ detalheFinanceiroSelecionado === 'entrada' ? 'entrada' : 'saída' }} encontrado.
+      </li>
+    </ul>
   </div>
 
   <div class="controle-financeiro">
@@ -89,95 +105,97 @@
   </div>
 
   <!-- Tabela -->
-  <table>
-    <thead>
-      <tr>
-        <th>Nome</th>
-        <th>Contato</th>
-        <th>Solicitado em</th>
-        <th>Serviço</th>
-        <th>Modelo</th>
-        <th>Foto enviada</th>
-        <th>Data</th>
-        <th>Horário</th>
-        <th>Mensagem</th>
-        <th>Consentimento</th>
-        <th>Valor</th>
-        <th>Status</th>
-        <th>Ações</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let agendamento of getAgendamentosFiltrados()">
-        <td>{{agendamento.nome}}</td>
-        <td>{{agendamento.contato}}</td>
-        <td>{{ formatarDataHora(agendamento.solicitadoEm) }}</td>
-        <td>{{agendamento.servico}}</td>
-        <td>
-          <img *ngIf="agendamento.imagem" [src]="agendamento.imagem" width="80" (click)="abrirModal(agendamento.imagem)"
-            class="foto-miniatura" />
-          <span *ngIf="!agendamento.imagem">—</span>
-        </td>
-        <td>
-          <img *ngIf="agendamento.foto" [src]="agendamento.foto" width="80" (click)="abrirModal(agendamento.foto)"
-            class="foto-miniatura" />
-          <span *ngIf="!agendamento.foto">—</span>
-        </td>
-        <td>{{agendamento.data}}</td>
-        <td>{{agendamento.horario}}</td>
-        <td>{{agendamento.mensagem || '—'}}</td>
-        <td>
-          <span *ngIf="agendamento.consentimento">✔️ Autorizado</span>
-          <span *ngIf="!agendamento.consentimento">❌ Não autorizado</span>
-        </td>
-        <td>
-          <ng-container *ngIf="agendamento.status === 'Pendente'; else somenteLeitura">
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Contato</th>
+          <th>Solicitado em</th>
+          <th>Serviço</th>
+          <th>Modelo</th>
+          <th>Foto enviada</th>
+          <th>Data</th>
+          <th>Horário</th>
+          <th>Mensagem</th>
+          <th>Consentimento</th>
+          <th>Valor</th>
+          <th>Status</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let agendamento of getAgendamentosFiltrados()">
+          <td>{{agendamento.nome}}</td>
+          <td>{{agendamento.contato}}</td>
+          <td>{{ formatarDataHora(agendamento.solicitadoEm) }}</td>
+          <td>{{agendamento.servico}}</td>
+          <td>
+            <img *ngIf="agendamento.imagem" [src]="agendamento.imagem" width="80" (click)="abrirModal(agendamento.imagem)"
+              class="foto-miniatura" />
+            <span *ngIf="!agendamento.imagem">—</span>
+          </td>
+          <td>
+            <img *ngIf="agendamento.foto" [src]="agendamento.foto" width="80" (click)="abrirModal(agendamento.foto)"
+              class="foto-miniatura" />
+            <span *ngIf="!agendamento.foto">—</span>
+          </td>
+          <td>{{agendamento.data}}</td>
+          <td>{{agendamento.horario}}</td>
+          <td>{{agendamento.mensagem || '—'}}</td>
+          <td>
+            <span *ngIf="agendamento.consentimento">✔️ Autorizado</span>
+            <span *ngIf="!agendamento.consentimento">❌ Não autorizado</span>
+          </td>
+          <td>
+            <ng-container *ngIf="agendamento.status === 'Pendente'; else somenteLeitura">
 
-    <input
-      type="number"
-      [(ngModel)]="agendamento.valor"
-      placeholder="R$">
+      <input
+        type="number"
+        [(ngModel)]="agendamento.valor"
+        placeholder="R$">
 
-    <button
-      class="valor-action"
-      (click)="adicionarValor(agendamento, agendamento.valor)">
-      Salvar e Enviar Pagamento
-    </button>
+      <button
+        class="valor-action"
+        (click)="adicionarValor(agendamento, agendamento.valor)">
+        Salvar e Enviar Pagamento
+      </button>
 
-</ng-container>
+    </ng-container>
 
-<ng-template #somenteLeitura>
+    <ng-template #somenteLeitura>
 
-    <span>
-      R$ {{ agendamento.valor || '-' }}
-    </span>
+      <span>
+        R$ {{ agendamento.valor || '-' }}
+      </span>
 
-</ng-template>
-        </td>
-        <td>
-          <span class="badge" [ngClass]="{
-            'pendente': agendamento.status === 'Pendente',
-            'confirmado': agendamento.status === 'Confirmado',
-            'cancelado': agendamento.status === 'Cancelado'
-          }">{{ agendamento.status || 'Pendente' }}</span>
-        </td>
-        <td>
-          <ng-container *ngIf="agendamento.status === 'Pendente'">
-            <button (click)="confirmarAgendamento(agendamento)">Confirmar</button>
-            <button (click)="cancelarAgendamento(agendamento)">Cancelar</button>
-          </ng-container>
-          <ng-container *ngIf="agendamento.status === 'Confirmado'">
-            <button (click)="cancelarAgendamento(agendamento)">Cancelar</button>
-            <button (click)="arquivarAgendamento(agendamento)">Arquivar</button>
-          </ng-container>
-          <ng-container *ngIf="agendamento.status === 'Cancelado'">
-            <button (click)="arquivarAgendamento(agendamento)">Arquivar</button>
-            <button (click)="excluirAgendamento(agendamento)">Excluir</button>
-          </ng-container>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+    </ng-template>
+          </td>
+          <td>
+            <span class="badge" [ngClass]="{
+              'pendente': agendamento.status === 'Pendente',
+              'confirmado': agendamento.status === 'Confirmado',
+              'cancelado': agendamento.status === 'Cancelado'
+            }">{{ agendamento.status || 'Pendente' }}</span>
+          </td>
+          <td>
+            <ng-container *ngIf="agendamento.status === 'Pendente'">
+              <button (click)="confirmarAgendamento(agendamento)">Confirmar</button>
+              <button (click)="cancelarAgendamento(agendamento)">Cancelar</button>
+            </ng-container>
+            <ng-container *ngIf="agendamento.status === 'Confirmado'">
+              <button (click)="cancelarAgendamento(agendamento)">Cancelar</button>
+              <button (click)="arquivarAgendamento(agendamento)">Arquivar</button>
+            </ng-container>
+            <ng-container *ngIf="agendamento.status === 'Cancelado'">
+              <button (click)="arquivarAgendamento(agendamento)">Arquivar</button>
+              <button (click)="excluirAgendamento(agendamento)">Excluir</button>
+            </ng-container>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
   <!-- Modal -->
   <div class="modal-foto" *ngIf="fotoSelecionada" (click)="fecharModal()">
