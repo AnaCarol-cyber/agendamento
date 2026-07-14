@@ -10,14 +10,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./servicos.css']
 })
 export class Servicos {
-  servicos = [
-    { nome: 'Box Braids', preco: 200, imagem: 'assets/img/14.jpeg' },
-    { nome: 'Nagô', preco: 150, imagem: 'assets/img/27.jpeg' },
-    { nome: 'Twist', preco: 200, imagem: 'assets/img/penteado3.jpg' },
-    { nome: 'Megahair', preco: 400, imagem: 'assets/img/22.jpeg' },
-    { nome: 'Tranças Soltas', preco: 200, imagem: 'assets/img/37.jpeg' },
-    { nome: 'Penteado', preco: 150, imagem: 'assets/img/6.jpeg' }
-  ];
+  servicos: any[] = [];
 
   modelos = [
     'assets/img/1.jpeg','assets/img/2.jpeg','assets/img/3.jpeg','assets/img/4.jpeg',
@@ -35,38 +28,58 @@ export class Servicos {
     'assets/img/penteado4.jpg'
   ];
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) {
+    this.carregarServicos();
+  }
 
   modalAberto = false;
   imagemSelecionada: string | null = null;
   servicoSelecionado: any = null;
   indiceAtual: number = 0;
+  tipoModal: 'servicos' | 'galeria' | null = null;
+
+  carregarServicos() {
+    const salvos = JSON.parse(localStorage.getItem('servicos') || '[]');
+    this.servicos = salvos.length ? salvos : [
+      { nome: 'Box Braids', preco: 200, duracao: 270, imagem: 'assets/img/14.jpeg' },
+      { nome: 'Nagô', preco: 150, duracao: 180, imagem: 'assets/img/27.jpeg' },
+      { nome: 'Twist', preco: 200, duracao: 180, imagem: 'assets/img/penteado3.jpg' },
+      { nome: 'Megahair', preco: 400, duracao: 120, imagem: 'assets/img/22.jpeg' },
+      { nome: 'Tranças Soltas', preco: 200, duracao: 240, imagem: 'assets/img/37.jpeg' },
+      { nome: 'Penteado', preco: 150, duracao: 90, imagem: 'assets/img/6.jpeg' }
+    ];
+    localStorage.setItem('servicos', JSON.stringify(this.servicos));
+  }
 
   abrirModal(servico: any) {
     this.modalAberto = true;
+    this.tipoModal = 'servicos';
+    this.indiceAtual = this.servicos.findIndex((item) => item.nome === servico.nome);
     this.imagemSelecionada = servico.imagem;
     this.servicoSelecionado = servico.nome ? servico : null;
   }
 
   abrirModalComIndice(indice: number) {
     this.modalAberto = true;
+    this.tipoModal = 'galeria';
     this.indiceAtual = indice;
     this.imagemSelecionada = this.modelos[indice];
-    this.servicoSelecionado = null; // galeria não tem preço/nome
+    this.servicoSelecionado = null;
   }
 
   fecharModal() {
     this.modalAberto = false;
     this.imagemSelecionada = null;
     this.servicoSelecionado = null;
+    this.tipoModal = null;
   }
 
   selecionarServico(servico: any) {
-    this.router.navigate(['/agendamento'], { 
-      queryParams: { 
+    this.router.navigate(['/agendamento'], {
+      queryParams: {
         servico: servico.nome,
-        imagem: servico.imagem   
-      } 
+        imagem: servico.imagem
+      }
     });
   }
 
@@ -75,27 +88,56 @@ export class Servicos {
   }
 
   proximaImagem() {
-    if (this.servicoSelecionado) return; // se for serviço, não navega
+    if (!this.modalAberto) return;
+
+    if (this.tipoModal === 'servicos') {
+      const totalServicos = this.servicos.length;
+      if (!totalServicos) return;
+
+      this.indiceAtual = (this.indiceAtual + 1) % totalServicos;
+      const servico = this.servicos[this.indiceAtual];
+      this.servicoSelecionado = servico;
+      this.imagemSelecionada = servico?.imagem || null;
+      return;
+    }
+
     this.indiceAtual = (this.indiceAtual + 1) % this.modelos.length;
     this.imagemSelecionada = this.modelos[this.indiceAtual];
+    this.servicoSelecionado = null;
   }
 
   imagemAnterior() {
-    if (this.servicoSelecionado) return;
+    if (!this.modalAberto) return;
+
+    if (this.tipoModal === 'servicos') {
+      const totalServicos = this.servicos.length;
+      if (!totalServicos) return;
+
+      this.indiceAtual = (this.indiceAtual - 1 + totalServicos) % totalServicos;
+      const servico = this.servicos[this.indiceAtual];
+      this.servicoSelecionado = servico;
+      this.imagemSelecionada = servico?.imagem || null;
+      return;
+    }
+
     this.indiceAtual = (this.indiceAtual - 1 + this.modelos.length) % this.modelos.length;
     this.imagemSelecionada = this.modelos[this.indiceAtual];
+    this.servicoSelecionado = null;
   }
 
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
-    if (this.modalAberto) {
-      if (event.key === 'ArrowRight') {
-        this.proximaImagem();
-      } else if (event.key === 'ArrowLeft') {
-        this.imagemAnterior();
-      } else if (event.key === 'Escape') {
-        this.fecharModal();
-      }
+    if (!this.modalAberto) return;
+
+    if (event.key === 'ArrowRight') {
+      event.preventDefault();
+      this.proximaImagem();
+    } else if (event.key === 'ArrowLeft') {
+      event.preventDefault();
+      this.imagemAnterior();
+    } else if (event.key === 'Escape') {
+      event.preventDefault();
+      this.fecharModal();
     }
   }
 }

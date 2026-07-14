@@ -1,7 +1,9 @@
 .dashboard {
-  max-width: 1100px;
-  margin: 40px auto;
-  padding: 20px;
+  max-width: 1180px;
+  width: min(100%, 1180px);
+  margin: 24px auto;
+  padding: 20px 24px;
+  box-sizing: border-box;
   background: #fff;
   border-radius: 14px;
   box-shadow: 0 10px 25px rgba(0,0,0,0.15);
@@ -17,14 +19,16 @@
   align-items: center;
   position: relative;
   margin-bottom: 20px;
+  gap: 12px;
 }
 
 .dashboard-header h2 {
   font-family: 'Yeseva One', serif;
   color: #5d4037;
-  font-size: 24px;
+  font-size: clamp(1.2rem, 2.2vw, 1.6rem);
   text-align: center;
   flex: 1;
+  margin: 0;
 }
 
 .usuario-logado {
@@ -86,16 +90,14 @@
    RESUMO RÁPIDO (CARDS)
 ========================= */
 .resumo {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 20px;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 15px;
+  margin-bottom: 20px;
 }
 
 .card {
-  flex: 1;
-  min-width: 150px;
+  min-width: 0;
   padding: 15px;
   border-radius: 10px;
   text-align: center;
@@ -104,12 +106,104 @@
   box-shadow: 0 6px 14px rgba(0,0,0,0.1);
   cursor: pointer;
   transition: transform 0.3s;
+  min-height: 110px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .card:hover { transform: scale(1.05); }
 .card.pendente { background: #fbc02d; }
 .card.confirmado { background: #4caf50; }
 .card.cancelado { background: #e53935; }
+
+/* =========================
+   FINANÇAS
+========================= */
+.resumo-financeiro {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.resumo-financeiro .card.entrada { background: #4caf50; }
+.resumo-financeiro .card.saida { background: #e53935; }
+.resumo-financeiro .card.saldo { background: #5d4037; }
+
+.controle-financeiro {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(300px, 0.9fr);
+  gap: 20px;
+  margin-bottom: 24px;
+  align-items: start;
+}
+
+.form-financeiro,
+.lista-movimentacoes {
+  background: #f9f6f2;
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.08);
+}
+
+.form-financeiro {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.form-financeiro h3,
+.lista-movimentacoes h3 {
+  color: #5d4037;
+  margin-bottom: 6px;
+}
+
+.form-financeiro input,
+.form-financeiro select,
+.form-financeiro button {
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+}
+
+.form-financeiro button {
+  background: #d4a017;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.lista-movimentacoes ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.lista-movimentacoes li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  background: #fff;
+  padding: 8px 10px;
+  border-radius: 6px;
+}
+
+.badge-financeiro {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.badge-financeiro.entrada { background: #dff2e3; color: #2e7d32; }
+.badge-financeiro.saida { background: #fde2e2; color: #c62828; }
 
 /* =========================
    FILTROS E BUSCA
@@ -133,8 +227,10 @@
 ========================= */
 table {
   width: 100%;
+  min-width: 980px;
   border-collapse: collapse;
   margin-top: 15px;
+  table-layout: fixed;
 }
 
 thead {
@@ -143,11 +239,14 @@ thead {
 }
 
 th, td {
-  padding: 8px;
+  padding: 6px 7px;
   border: 1px solid #ddd;
   text-align: center;
-  font-size: 13px;
+  font-size: 12px;
+  line-height: 1.25;
   vertical-align: middle;
+  word-break: break-word;
+  overflow-wrap: anywhere;
 }
 
 tbody tr:nth-child(even) { background: #f9f6f2; }
@@ -167,11 +266,14 @@ tbody tr:nth-child(even) { background: #f9f6f2; }
 }
 
 td input {
-  width: 60px;
-  padding: 5px;
+  width: 100%;
+  max-width: 80px;
+  padding: 4px 5px;
   border-radius: 6px;
   border: 1px solid #ccc;
   text-align: center;
+  box-sizing: border-box;
+  font-size: 11px;
 }
 
 
@@ -180,13 +282,22 @@ td input {
 ========================= */
 td button {
   margin: 2px;
-  padding: 5px 8px;
+  padding: 4px 7px;
   border: none;
   border-radius: 6px;
   cursor: pointer;
-  font-size: 11px;
+  font-size: 10px;
   font-weight: bold;
+  line-height: 1.2;
+  white-space: nowrap;
   transition: 0.3s;
+}
+
+td .valor-action {
+  display: inline-block;
+  white-space: normal;
+  word-break: break-word;
+  max-width: 110px;
 }
 
 td button:first-child { background: #4caf50; color: #fff; }
@@ -199,11 +310,12 @@ td button:hover { transform: translateY(-2px); }
 ========================= */
 .badge {
   display: inline-block;
-  padding: 5px 10px;
+  padding: 4px 8px;
   border-radius: 20px;
-  font-size: 11px;
+  font-size: 10px;
   font-weight: bold;
   text-transform: uppercase;
+  line-height: 1.2;
 }
 
 .badge.pendente { background: #fbc02d; color: #fff; }
@@ -285,12 +397,16 @@ td button:hover { transform: translateY(-2px); }
    RESPONSIVO
 ========================= */
 
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
 /* Desktop grande (≥1200px) */
 @media (min-width: 1200px) {
   .dashboard {
-    max-width: 1100px;
-    margin: 40px auto;
-    padding: 20px;
+    margin: 24px auto;
+    padding: 20px 24px;
   }
 
   table th, table td {
@@ -309,14 +425,18 @@ td button:hover { transform: translateY(-2px); }
     font-size: 22px;
   }
 
-  .resumo {
-    flex-wrap: wrap;
+  .resumo,
+  .resumo-financeiro {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 12px;
   }
 
   .card {
-    flex: 1 1 45%;
-    min-width: 160px;
+    min-width: 0;
+  }
+
+  .controle-financeiro {
+    grid-template-columns: 1fr;
   }
 
   .filtros {
@@ -349,14 +469,14 @@ td button:hover { transform: translateY(-2px); }
     font-size: 20px;
   }
 
-  .resumo {
-    flex-wrap: wrap;
+  .resumo,
+  .resumo-financeiro {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 12px;
   }
 
   .card {
-    flex: 1 1 45%;
-    min-width: 140px;
+    min-width: 0;
   }
 
   .filtros {
@@ -392,8 +512,9 @@ td button:hover { transform: translateY(-2px); }
     margin-bottom: 10px;
   }
 
-  .resumo {
-    flex-direction: column;
+  .resumo,
+  .resumo-financeiro {
+    grid-template-columns: 1fr;
     gap: 10px;
   }
 

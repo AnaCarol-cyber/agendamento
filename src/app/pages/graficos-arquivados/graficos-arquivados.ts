@@ -194,6 +194,54 @@ export class GraficosArquivados implements AfterViewInit {
 
   }
 
+  obterDadosGraficoFinanceiro() {
+    const movimentacoes = JSON.parse(
+      localStorage.getItem('movimentacoesFinanceiras') || '[]'
+    );
+
+    const entradasPorMes: { [mes: string]: number } = {};
+    const saidasPorMes: { [mes: string]: number } = {};
+    const meses = new Set<string>();
+
+    this.ativos
+      .filter((a) => a.status === 'Confirmado')
+      .forEach((agendamento) => {
+        const data = new Date(agendamento.data);
+        const mes = data.toLocaleString('pt-BR', { month: 'short' });
+        entradasPorMes[mes] = (entradasPorMes[mes] || 0) + (Number(agendamento.valor) || 0);
+        meses.add(mes);
+      });
+
+    movimentacoes
+      .filter((movimentacao: any) => movimentacao.tipo === 'entrada')
+      .forEach((movimentacao: any) => {
+        const data = new Date(movimentacao.data);
+        const mes = data.toLocaleString('pt-BR', { month: 'short' });
+        entradasPorMes[mes] = (entradasPorMes[mes] || 0) + (Number(movimentacao.valor) || 0);
+        meses.add(mes);
+      });
+
+    movimentacoes
+      .filter((movimentacao: any) => movimentacao.tipo === 'saida')
+      .forEach((movimentacao: any) => {
+        const data = new Date(movimentacao.data);
+        const mes = data.toLocaleString('pt-BR', { month: 'short' });
+        saidasPorMes[mes] = (saidasPorMes[mes] || 0) + (Number(movimentacao.valor) || 0);
+        meses.add(mes);
+      });
+
+    const labels = Array.from(meses).sort((a, b) => {
+      const ordem = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'];
+      return ordem.indexOf(a.toLowerCase()) - ordem.indexOf(b.toLowerCase());
+    });
+
+    return {
+      labels,
+      entradas: labels.map((mes) => entradasPorMes[mes] || 0),
+      saidas: labels.map((mes) => saidasPorMes[mes] || 0)
+    };
+  }
+
   gerarRelatorioPDF() {
 
     const doc = new jsPDF();
@@ -250,7 +298,6 @@ export class GraficosArquivados implements AfterViewInit {
       this.graficoRendimentos.destroy();
     }
 
-    // Apenas agendamentos ativos do Dashboard
     this.ativos =
       JSON.parse(localStorage.getItem('agendamentos') || '[]');
 
@@ -325,28 +372,7 @@ export class GraficosArquivados implements AfterViewInit {
 
     }
 
-    const rendimentosPorMes: { [mes: string]: number } = {};
-
-    this.ativos
-
-      .filter(a => a.status === 'Confirmado')
-
-      .forEach(a => {
-
-        const data = new Date(a.data);
-
-        const mes = data.toLocaleString(
-          'pt-BR',
-          {
-            month: 'short'
-          }
-        );
-
-        rendimentosPorMes[mes] =
-          (rendimentosPorMes[mes] || 0) +
-          (Number(a.valor) || 0);
-
-      });
+    const dadosFinanceiros = this.obterDadosGraficoFinanceiro();
 
     const canvasRendimentos =
       document.getElementById(
@@ -364,21 +390,27 @@ export class GraficosArquivados implements AfterViewInit {
 
           data: {
 
-            labels: Object.keys(
-              rendimentosPorMes
-            ),
+            labels: dadosFinanceiros.labels,
 
             datasets: [
 
               {
 
-                label: 'Rendimentos (R$)',
+                label: 'Entradas (R$)',
 
-                data: Object.values(
-                  rendimentosPorMes
-                ),
+                data: dadosFinanceiros.entradas,
 
                 backgroundColor: '#4caf50'
+
+              },
+
+              {
+
+                label: 'Saídas (R$)',
+
+                data: dadosFinanceiros.saidas,
+
+                backgroundColor: '#e53935'
 
               }
 

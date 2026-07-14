@@ -3,54 +3,52 @@
 
   <form (ngSubmit)="confirmarAgendamento()">
     <label>Nome do Cliente:*</label>
-    <input type="text" [(ngModel)]="nome" name="nome" 
+    <input type="text" [(ngModel)]="nome" name="nome"
            required pattern="[A-Za-zÀ-ÿ\s]+" title="Somente letras e espaços" />
 
     <label>Contato (WhatsApp com DDD):*</label>
-    <input type="text" [(ngModel)]="contato" name="contato" 
+    <input type="text" [(ngModel)]="contato" name="contato"
            required pattern="[0-9]{10,11}" title="Digite apenas números com DDD (10 ou 11 dígitos)" />
 
-   <label *ngIf="!servicoSelecionado">Serviço:*</label>
-<select *ngIf="!servicoSelecionado"
-        [(ngModel)]="servico" name="servico"
-        (change)="atualizarHorarios()" required>
-  <option value="trança">Trança (4h30)</option>
-  <option value="penteado">Penteado (1h30)</option>
-  <option value="megahair">Megahair (2h)</option>
-</select>
+    <label *ngIf="!servicoSelecionado">Serviço:*</label>
+    <select *ngIf="!servicoSelecionado"
+            [(ngModel)]="servico" name="servico"
+            (change)="atualizarHorarios()" required>
+      <option value="" disabled selected>Selecione um serviço</option>
+      <option *ngFor="let servicoOption of servicos" [value]="servicoOption.nome">
+        {{ servicoOption.nome }} — {{ servicoOption.duracao }} min • R$ {{ servicoOption.preco }}
+      </option>
+    </select>
 
     <label>Data:*</label>
     <input type="date" [(ngModel)]="data" name="data" required />
 
     <label>Horário:*</label>
     <select [(ngModel)]="horario" name="horario" required>
-      <option *ngFor="let h of horariosDisponiveis" [value]="h">{{h}}</option>
+      <option *ngFor="let h of horariosDisponiveis" [value]="h">{{ h }}</option>
     </select>
 
     <label>Mensagem/Observação:</label>
     <textarea [(ngModel)]="mensagem" name="mensagem"
               placeholder="Observações do cliente ou notas internas..."></textarea>
 
-  <!-- Preview do serviço já escolhido -->
-<div class="preview-selecionado" *ngIf="servicoSelecionado">
-  <h3>Serviço escolhido: {{ servicoSelecionado }}</h3>
-  <img *ngIf="imagemSelecionada" [src]="imagemSelecionada" alt="Modelo selecionado" />
-</div>
+    <div class="preview-selecionado" *ngIf="servicoSelecionado">
+      <h3>Serviço escolhido: {{ servicoSelecionado }}</h3>
+      <img *ngIf="imagemSelecionada" [src]="imagemSelecionada" alt="Modelo selecionado" />
+    </div>
 
     <label>Foto do Modelo (opcional):</label>
     <input type="file" #fotoInput (change)="uploadFoto($event)" accept="image/*" />
 
-
-    <!-- LGPD -->
     <div class="lgpd">
       <input type="checkbox" id="consentimento" [(ngModel)]="consentimento" name="consentimento" required />
       <label for="consentimento">
         Autorizo o uso dos meus dados pessoais para fins de agendamento, conforme a LGPD.
       </label>
       <p class="lgpd-texto">
-        Seus dados serão utilizados apenas para contato e confirmação do serviço.  
-        Não serão compartilhados com terceiros.  
-        <a routerLink="/privacidade" target="_blank">Leia nossa Política de Privacidade</a> | 
+        Seus dados serão utilizados apenas para contato e confirmação do serviço.
+        Não serão compartilhados com terceiros.
+        <a routerLink="/privacidade" target="_blank">Leia nossa Política de Privacidade</a> |
         <a routerLink="/termos" target="_blank">Leia nossos Termos de Serviço</a>.
       </p>
     </div>

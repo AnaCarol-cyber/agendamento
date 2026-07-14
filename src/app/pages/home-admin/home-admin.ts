@@ -72,7 +72,6 @@ localizacao: string = '';
 
   alert('Página Home atualizada com sucesso!');
 
-  // Limpar os campos após salvar
   this.titulo = '';
   this.descricao = '';
   this.imagem = null;
@@ -81,7 +80,6 @@ localizacao: string = '';
   this.localizacao = '';
 }
 
-// Função para carregar novamente os dados salvos
 carregarUltimaEdicao() {
   this.titulo = localStorage.getItem('homeTitulo') || '';
   this.descricao = localStorage.getItem('homeDescricao') || '';
@@ -91,7 +89,6 @@ carregarUltimaEdicao() {
   this.localizacao = localStorage.getItem('homeLocalizacao') || '';
 }
 
-// Função para excluir dados
 excluirEdicao() {
   localStorage.removeItem('homeTitulo');
   localStorage.removeItem('homeDescricao');

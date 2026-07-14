@@ -10,32 +10,33 @@ import { HostListener } from '@angular/core';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, FormsModule,RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './dashboard.html',
   styleUrls: ['./dashboard.css']
 })
 export class Dashboard {
-  tituloPagina: string = 'Dashboard Administrativo';
+  tituloPagina = 'Dashboard Administrativo';
   usuarioLogado: string | null = null;
   agendamentos: any[] = [];
-  statusFiltro: string = '';
-  busca: string = '';
-  menuAberto: boolean = false;
-  mostrandoArquivados: boolean = false;
+  movimentacoesFinanceiras: any[] = [];
+  statusFiltro = '';
+  busca = '';
+  menuAberto = false;
+  mostrandoArquivados = false;
   fotoSelecionada: string | null = null;
+  novaMovimentacao = { descricao: '', valor: 0, data: '', tipo: 'entrada' };
 
-constructor(private router: Router) {
-
+  constructor(private router: Router) {
     this.usuarioLogado = localStorage.getItem('usuarioLogado');
 
     if (!this.usuarioLogado) {
-        this.router.navigate(['/login']);
-        return;
+      this.router.navigate(['/login']);
+      return;
     }
 
     this.carregarAgendamentos();
-
-}
+    this.carregarMovimentacoes();
+  }
 
   validarHorario(agendamento: any): boolean {
     const data = new Date(`${agendamento.data}T${agendamento.horario}`);
@@ -58,7 +59,7 @@ constructor(private router: Router) {
 
   adicionarValor(agendamento: any, valor: number) {
     if (!this.validarHorario(agendamento)) {
-      alert("Horário inválido! Funcionamos de segunda a sábado, das 08h às 22h.");
+      alert('Horário inválido! Funcionamos de segunda a sábado, das 08h às 22h.');
       return;
     }
     agendamento.valor = valor;
@@ -82,7 +83,7 @@ constructor(private router: Router) {
 ⏱️ Duração aproximada: ${duracao} minutos
 💰 Valor do serviço: R$${agendamento.valor}
 
-Para confirmar, realize o pagamento de 50% (R$${agendamento.valor/2}).
+Para confirmar, realize o pagamento de 50% (R$${agendamento.valor / 2}).
 Você pode pagar com cartão ou Pix pelo link abaixo:
 ${linkPagamento}`;
 
@@ -127,54 +128,119 @@ Data: ${agendamento.data} às ${agendamento.horario}
   }
 
   arquivarAgendamento(agendamento: any) {
-    let arquivados = JSON.parse(localStorage.getItem('agendamentosArquivados') || '[]');
+    const arquivados = JSON.parse(localStorage.getItem('agendamentosArquivados') || '[]');
     arquivados.push(agendamento);
     localStorage.setItem('agendamentosArquivados', JSON.stringify(arquivados));
-    this.agendamentos = this.agendamentos.filter(a => a !== agendamento);
+    this.agendamentos = this.agendamentos.filter((a) => a !== agendamento);
     this.salvar();
   }
 
   excluirAgendamento(agendamento: any) {
-    if (confirm("Deseja excluir este agendamento permanentemente?")) {
-      this.agendamentos = this.agendamentos.filter(a => a !== agendamento);
+    if (confirm('Deseja excluir este agendamento permanentemente?')) {
+      this.agendamentos = this.agendamentos.filter((a) => a !== agendamento);
       this.salvar();
     }
   }
 
+  adicionarMovimentacao() {
+    if (!this.novaMovimentacao.descricao || !this.novaMovimentacao.valor || !this.novaMovimentacao.data) {
+      alert('Preencha descrição, valor e data para registrar a movimentação.');
+      return;
+    }
+
+    this.movimentacoesFinanceiras.push({
+      ...this.novaMovimentacao,
+      valor: Number(this.novaMovimentacao.valor)
+    });
+    this.salvarMovimentacoes();
+    this.novaMovimentacao = { descricao: '', valor: 0, data: '', tipo: 'entrada' };
+    alert('Movimentação registrada com sucesso!');
+  }
+
+  carregarMovimentacoes() {
+    this.movimentacoesFinanceiras = JSON.parse(localStorage.getItem('movimentacoesFinanceiras') || '[]');
+  }
+
+  salvarMovimentacoes() {
+    localStorage.setItem('movimentacoesFinanceiras', JSON.stringify(this.movimentacoesFinanceiras));
+  }
+
+  calcularEntradas() {
+    const entradasAgendamentos = this.agendamentos
+      .filter((a) => a.status === 'Confirmado' && Number(a.valor || 0) > 0)
+      .reduce((total, a) => total + Number(a.valor || 0), 0);
+
+    const entradasManuais = this.movimentacoesFinanceiras
+      .filter((m) => m.tipo === 'entrada')
+      .reduce((total, m) => total + Number(m.valor || 0), 0);
+
+    return entradasAgendamentos + entradasManuais;
+  }
+
+  calcularSaidas() {
+    return this.movimentacoesFinanceiras
+      .filter((m) => m.tipo === 'saida')
+      .reduce((total, m) => total + Number(m.valor || 0), 0);
+  }
+
+  calcularSaldo() {
+    return this.calcularEntradas() - this.calcularSaidas();
+  }
 
   calcularRendimentos() {
-    return this.agendamentos
-      .filter(a => a.status === 'Confirmado')
-      .reduce((total, a) => total + (a.valor || 0), 0);
+    return this.calcularEntradas();
+  }
+
+  formatarDataHora(valor: string | null | undefined): string {
+    if (!valor) {
+      return '—';
+    }
+
+    const data = new Date(valor);
+    if (Number.isNaN(data.getTime())) {
+      return '—';
+    }
+
+    return data.toLocaleString('pt-BR', {
+      dateStyle: 'short',
+      timeStyle: 'short'
+    });
   }
 
   gerarRelatorioPDF() {
     const doc = new jsPDF();
-    doc.text("Relatório de Agendamentos", 14, 20);
+    doc.text('Relatório de Agendamentos', 14, 20);
     autoTable(doc, {
-      head: [['Nome','Serviço','Data','Horário','Valor','Status']],
-      body: this.agendamentos.map(a => [
+      head: [['Nome', 'Serviço', 'Data', 'Horário', 'Valor', 'Status']],
+      body: this.agendamentos.map((a) => [
         a.nome, a.servico, a.data, a.horario, a.valor || '', a.status
       ]),
       startY: 30
     });
-    const rendimentos = this.calcularRendimentos();
-    doc.text(`Rendimentos Confirmados: R$ ${rendimentos}`, 14, (doc as any).lastAutoTable.finalY + 20);
+
+    const entradas = this.calcularEntradas();
+    const saidas = this.calcularSaidas();
+    const saldo = this.calcularSaldo();
+    const finalY = (doc as any).lastAutoTable.finalY + 12;
+
+    doc.text(`Entradas: R$ ${entradas.toFixed(2)}`, 14, finalY);
+    doc.text(`Saídas: R$ ${saidas.toFixed(2)}`, 14, finalY + 8);
+    doc.text(`Saldo: R$ ${saldo.toFixed(2)}`, 14, finalY + 16);
     doc.save('relatorio_agendamentos.pdf');
   }
 
   carregarAgendamentos() {
     this.agendamentos = JSON.parse(localStorage.getItem('agendamentos') || '[]');
-    this.agendamentos.forEach(a => { if (!a.status) a.status = 'Pendente'; });
+    this.agendamentos.forEach((a) => { if (!a.status) a.status = 'Pendente'; });
   }
 
   salvar() { localStorage.setItem('agendamentos', JSON.stringify(this.agendamentos)); }
 
   getAgendamentosFiltrados() {
     let lista = this.agendamentos;
-    if (this.statusFiltro) lista = lista.filter(a => a.status === this.statusFiltro);
+    if (this.statusFiltro) lista = lista.filter((a) => a.status === this.statusFiltro);
     if (this.busca) {
-      lista = lista.filter(a =>
+      lista = lista.filter((a) =>
         a.nome.toLowerCase().includes(this.busca.toLowerCase()) ||
         a.servico.toLowerCase().includes(this.busca.toLowerCase())
       );
@@ -185,11 +251,13 @@ Data: ${agendamento.data} às ${agendamento.horario}
   abrirModal(foto: string) { this.fotoSelecionada = foto; }
   fecharModal() { this.fotoSelecionada = null; }
 
-  toggleMenu() { 
-    this.menuAberto = !this.menuAberto; }
-    sair() { localStorage.removeItem('usuarioLogado'); this.router.navigate(['/login']); }
+  toggleMenu() {
+    this.menuAberto = !this.menuAberto;
+  }
 
-    @HostListener('document:click', ['$event'])
+  sair() { localStorage.removeItem('usuarioLogado'); this.router.navigate(['/login']); }
+
+  @HostListener('document:click', ['$event'])
   fecharMenuAoClicarFora(event: Event) {
     const target = event.target as HTMLElement;
     const dentroDoMenu = target.closest('.menu-usuario') || target.closest('.icone-usuario');

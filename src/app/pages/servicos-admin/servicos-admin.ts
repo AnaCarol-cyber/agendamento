@@ -24,10 +24,23 @@ export class ServicosAdmin {
   tituloPagina: string = 'Gerenciar Serviços';
   menuAberto: boolean = false;
 
-  servicos: Servico[] = JSON.parse(localStorage.getItem('servicos') || '[]');
+  servicos: Servico[] = [];
   novoServico: Servico = { nome: '', duracao: 60, preco: 0 };
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) {
+    this.servicos = JSON.parse(localStorage.getItem('servicos') || '[]');
+    if (!this.servicos.length) {
+      this.servicos = [
+        { nome: 'Box Braids', duracao: 270, preco: 200, imagem: 'assets/img/14.jpeg' },
+        { nome: 'Nagô', duracao: 180, preco: 150, imagem: 'assets/img/27.jpeg' },
+        { nome: 'Twist', duracao: 180, preco: 200, imagem: 'assets/img/penteado3.jpg' },
+        { nome: 'Megahair', duracao: 120, preco: 400, imagem: 'assets/img/22.jpeg' },
+        { nome: 'Tranças Soltas', duracao: 240, preco: 200, imagem: 'assets/img/37.jpeg' },
+        { nome: 'Penteado', duracao: 90, preco: 150, imagem: 'assets/img/6.jpeg' }
+      ];
+      this.salvar();
+    }
+  }
 
   toggleMenu() { this.menuAberto = !this.menuAberto; }
   @HostListener('document:click', ['$event'])

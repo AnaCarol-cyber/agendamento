@@ -1,5 +1,4 @@
 <section class="dashboard">
-  <!-- Cabeçalho -->
   <header class="dashboard-header">
     <div class="usuario-logado">
       <span class="icone-usuario" (click)="toggleMenu()">☰</span>
@@ -34,6 +33,49 @@
     </div>
   </div>
 
+  <div class="resumo-financeiro">
+    <div class="card entrada">
+      <h3>Entradas</h3>
+      <p>R$ {{ calcularEntradas().toFixed(2) }}</p>
+    </div>
+    <div class="card saida">
+      <h3>Saídas</h3>
+      <p>R$ {{ calcularSaidas().toFixed(2) }}</p>
+    </div>
+    <div class="card saldo">
+      <h3>Saldo</h3>
+      <p>R$ {{ calcularSaldo().toFixed(2) }}</p>
+    </div>
+  </div>
+
+  <div class="controle-financeiro">
+    <form class="form-financeiro" (ngSubmit)="adicionarMovimentacao()">
+      <h3>Controle de entradas e saídas</h3>
+      <input type="text" [(ngModel)]="novaMovimentacao.descricao" name="descricao" placeholder="Descrição" required />
+      <input type="number" [(ngModel)]="novaMovimentacao.valor" name="valor" placeholder="Valor" min="0" step="0.01" required />
+      <input type="date" [(ngModel)]="novaMovimentacao.data" name="data" required />
+      <select [(ngModel)]="novaMovimentacao.tipo" name="tipo">
+        <option value="entrada">Entrada</option>
+        <option value="saida">Saída</option>
+      </select>
+      <button type="submit">Registrar</button>
+    </form>
+
+    <div class="lista-movimentacoes">
+      <h3>Últimas movimentações</h3>
+      <ul>
+        <li *ngFor="let movimentacao of movimentacoesFinanceiras.slice().reverse()">
+          <strong>{{ movimentacao.descricao }}</strong>
+          <span class="badge-financeiro" [ngClass]="movimentacao.tipo === 'entrada' ? 'entrada' : 'saida'">
+            {{ movimentacao.tipo === 'entrada' ? 'Entrada' : 'Saída' }}
+          </span>
+          <span>R$ {{ movimentacao.valor }}</span>
+          <small>{{ movimentacao.data }}</small>
+        </li>
+      </ul>
+    </div>
+  </div>
+
   <!-- Filtros e busca -->
   <div class="filtros">
     <label for="statusFiltro">Filtrar por status:</label>
@@ -52,6 +94,7 @@
       <tr>
         <th>Nome</th>
         <th>Contato</th>
+        <th>Solicitado em</th>
         <th>Serviço</th>
         <th>Modelo</th>
         <th>Foto enviada</th>
@@ -68,6 +111,7 @@
       <tr *ngFor="let agendamento of getAgendamentosFiltrados()">
         <td>{{agendamento.nome}}</td>
         <td>{{agendamento.contato}}</td>
+        <td>{{ formatarDataHora(agendamento.solicitadoEm) }}</td>
         <td>{{agendamento.servico}}</td>
         <td>
           <img *ngIf="agendamento.imagem" [src]="agendamento.imagem" width="80" (click)="abrirModal(agendamento.imagem)"
@@ -95,6 +139,7 @@
       placeholder="R$">
 
     <button
+      class="valor-action"
       (click)="adicionarValor(agendamento, agendamento.valor)">
       Salvar e Enviar Pagamento
     </button>

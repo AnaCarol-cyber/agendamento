@@ -6,15 +6,20 @@ header {
   text-align: center;
 }
 
-/* Slogan no canto superior esquerdo */
-header .slogan {
+/* Slogan  */
+.slogan-link {
   position: absolute;
   top: 15px;
   left: 20px;
+  display: inline-block;
+}
+
+.slogan-link img {
   width: 170px;
   height: auto;
 }
 
+/* Título */
 header h1 {
   color: #d4a017;
   font-size: 70px;
@@ -22,6 +27,7 @@ header h1 {
   margin: 0 0 18px 0;
 }
 
+/* Menu de navegação */
 header nav {
   display: flex;
   justify-content: center;
@@ -40,7 +46,7 @@ header li {
   list-style: none;
 }
 
-header a {
+header nav a {
   text-decoration: none;
   color: #f4efe9;
   font-weight: 800;
@@ -48,7 +54,7 @@ header a {
   font-size: 23px;
 }
 
-header a::after {
+header nav a::after {
   content: "";
   position: absolute;
   bottom: -6px;
@@ -59,7 +65,7 @@ header a::after {
   transition: .3s;
 }
 
-header a:hover::after {
+header nav a:hover::after {
   width: 100%;
 }
 
@@ -73,14 +79,14 @@ header a:hover::after {
   header ul {
     gap: 35px;
   }
-  header a {
+  header nav a {
     font-size: 21px;
   }
 }
 
 /* Tablets (até 992px) */
 @media (max-width: 992px) {
-  header .slogan {
+  .slogan-link img {
     width: 140px;
   }
   header h1 {
@@ -89,7 +95,7 @@ header a:hover::after {
   header ul {
     gap: 25px;
   }
-  header a {
+  header nav a {
     font-size: 20px;
   }
 }
@@ -100,10 +106,14 @@ header a:hover::after {
     padding: 15px 20px;
   }
 
-  header .slogan {
+  .slogan-link {
     position: static;
     display: block;
     margin: 0 auto 15px;
+    text-align: center;
+  }
+
+  .slogan-link img {
     width: 130px;
   }
 
@@ -117,7 +127,7 @@ header a:hover::after {
     gap: 20px;
   }
 
-  header a {
+  header nav a {
     font-size: 18px;
   }
 }
@@ -138,11 +148,11 @@ header a:hover::after {
     gap: 12px;
   }
 
-  header a {
+  header nav a {
     font-size: 16px;
   }
 
-  header .slogan {
+  .slogan-link img {
     width: 100px;
     margin-bottom: 10px;
   }
